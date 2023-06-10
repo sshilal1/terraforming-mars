@@ -5,6 +5,7 @@ import {COMMUNITY_CARD_MANIFEST} from './community/CommunityCardManifest';
 import {PRELUDE_CARD_MANIFEST} from './prelude/PreludeCardManifest';
 import {PROMO_CARD_MANIFEST} from './promo/PromoCardManifest';
 import {CEO_CARD_MANIFEST} from './ceos/CeoCardManifest';
+import {SHIL_CARD_MANIFEST} from './shil/ShilCardManifest';
 import {
   BASE_CARD_MANIFEST,
   CORP_ERA_CARD_MANIFEST,
@@ -27,4 +28,5 @@ export const ALL_MODULE_MANIFESTS: Array<ModuleManifest> = [
   MOON_CARD_MANIFEST,
   PATHFINDERS_CARD_MANIFEST,
   CEO_CARD_MANIFEST,
+  SHIL_CARD_MANIFEST,
 ];

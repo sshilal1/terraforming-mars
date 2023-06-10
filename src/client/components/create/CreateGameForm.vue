@@ -65,6 +65,12 @@
                                 <span v-i18n>Promos</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#promo-cards" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
+                            <input type="checkbox" name="promo" id="shil-checkbox" v-model="shilCardsOption">
+                            <label for="shil-checkbox" class="expansion-button">
+                                <div class="create-game-expansion-icon expansion-icon-shil"></div>
+                                <span v-i18n>Shil</span>
+                            </label>
+
                             <div class="create-game-subsection-label" v-i18n>Fan-made</div>
 
                             <input type="checkbox" name="ares" id="ares-checkbox" v-model="aresExtension">
@@ -423,6 +429,7 @@
                   v-bind:colonies="colonies"
                   v-bind:turmoil="turmoil"
                   v-bind:promoCardsOption="promoCardsOption"
+                  v-bind:shilCardsOption="shilCardsOption"
                   v-bind:communityCardsOption="communityCardsOption"
                   v-bind:moonExpansion="moonExpansion"
                   v-bind:pathfindersExpansion="pathfindersExpansion"
@@ -445,6 +452,7 @@
                   ref="preludesFilter"
                   v-on:prelude-list-changed="updateCustomPreludes"
                   v-bind:promoCardsOption="promoCardsOption"
+                  v-bind:shilCardsOption="shilCardsOption"
                   v-bind:communityCardsOption="communityCardsOption"
                   v-bind:moonExpansion="moonExpansion"
                   v-bind:pathfindersExpansion="pathfindersExpansion"
@@ -552,6 +560,7 @@ export default (Vue as WithRefs<Refs>).extend({
       solarPhaseOption: false,
       shuffleMapOption: false,
       promoCardsOption: false,
+      shilCardsOption: false,
       communityCardsOption: false,
       aresExtension: false,
       politicalAgendasExtension: AgendaStyle.STANDARD,
@@ -597,6 +606,7 @@ export default (Vue as WithRefs<Refs>).extend({
       this.colonies = value;
       this.turmoil = value;
       this.promoCardsOption = value;
+      this.shilCardsOption = value;
       this.solarPhaseOption = value;
     },
     venusNext(value: boolean) {
@@ -844,6 +854,7 @@ export default (Vue as WithRefs<Refs>).extend({
       case 'moon': return model.moonExpansion;
       case 'pathfinders': return model.pathfindersExpansion;
       case 'ceo': return model.ceoExtension;
+      case 'shil': return model.shilCardsOption;
       default: throw new Error('Unknown module: ' + module);
       }
     },
@@ -927,6 +938,7 @@ export default (Vue as WithRefs<Refs>).extend({
       const board = this.board;
       const seed = this.seed;
       const promoCardsOption = this.promoCardsOption;
+      const shilCardsOption = this.shilCardsOption;
       const communityCardsOption = this.communityCardsOption;
       const aresExtension = this.aresExtension;
       const politicalAgendasExtension = this.politicalAgendasExtension;
@@ -1086,6 +1098,7 @@ export default (Vue as WithRefs<Refs>).extend({
         seed,
         solarPhaseOption,
         promoCardsOption,
+        shilCardsOption,
         communityCardsOption,
         aresExtension: aresExtension,
         politicalAgendasExtension: politicalAgendasExtension,

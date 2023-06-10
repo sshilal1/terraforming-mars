@@ -198,6 +198,7 @@ const moduleAbbreviations: Record<GameModule, string> = {
   moon: 'm',
   pathfinders: 'P',
   ceo: 'l', // ceo abbreviation is 'l' for leader, since both 'C' are already taken
+  shil: 's',
 };
 
 // TODO(kberg): make this use suffixModules.
@@ -313,6 +314,7 @@ export default (Vue as WithRefs<Refs>).extend({
         promo: true,
         pathfinders: true,
         ceo: true,
+        shil: true,
       },
       types: {
         event: true,
@@ -504,6 +506,7 @@ export default (Vue as WithRefs<Refs>).extend({
       case 'moon': return 'The Moon';
       case 'pathfinders': return 'Pathfinders';
       case 'ceo': return 'CEOs';
+      case 'shil': return 'Shils';
       }
     },
     filterByTags(card: ClientCard): boolean {

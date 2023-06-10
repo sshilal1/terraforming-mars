@@ -53,6 +53,9 @@ export default Vue.extend({
     promoCardsOption: {
       type: Boolean,
     },
+    shilCardsOption: {
+      type: Boolean,
+    },
     communityCardsOption: {
       type: Boolean,
     },
@@ -81,6 +84,7 @@ export default Vue.extend({
         // A bit sloppy since map is just above, but it will do.
         ...preludeCardNames('prelude'),
         ...this.promoCardsOption ? preludeCardNames('promo') : [],
+        ...this.shilCardsOption ? preludeCardNames('shil') : [],
         ...this.communityCardsOption ? preludeCardNames('community') : [],
         ...this.moonExpansion ? preludeCardNames('moon') : [],
         ...this.pathfindersExpansion ? preludeCardNames('pathfinders') : [],
@@ -172,6 +176,9 @@ export default Vue.extend({
     },
     promoCardsOption(enabled) {
       this.watchSelect('promo', enabled);
+    },
+    shilCardsOption(enabled) {
+      this.watchSelect('shil', enabled);
     },
     communityCardsOption(enabled) {
       this.watchSelect('community', enabled);

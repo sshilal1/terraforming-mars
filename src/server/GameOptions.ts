@@ -23,6 +23,7 @@ export type GameOptions = {
   preludeExtension: boolean;
   turmoilExtension: boolean;
   promoCardsOption: boolean;
+  shilCardsOption: boolean;
   communityCardsOption: boolean;
   aresExtension: boolean;
   aresHazards: boolean;
@@ -90,6 +91,7 @@ export const DEFAULT_GAME_OPTIONS: GameOptions = {
   politicalAgendasExtension: AgendaStyle.STANDARD,
   preludeExtension: false,
   promoCardsOption: false,
+  shilCardsOption: false,
   randomMA: RandomMAOptionType.NONE,
   requiresMoonTrackCompletion: false,
   removeNegativeGlobalEventsOption: false,

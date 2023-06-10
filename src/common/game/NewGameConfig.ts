@@ -45,6 +45,7 @@ export interface NewGameConfig {
   // preludeExtension: boolean;
   // turmoilExtension: boolean;
   promoCardsOption: boolean;
+  shilCardsOption: boolean;
   communityCardsOption: boolean;
   aresExtension: boolean;
   // aresHazards: boolean;

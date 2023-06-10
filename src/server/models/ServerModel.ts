@@ -577,6 +577,7 @@ export class Server {
       pathfindersExpansion: options.pathfindersExpansion,
       preludeExtension: options.preludeExtension,
       promoCardsOption: options.promoCardsOption,
+      shilCardsOption: options.shilCardsOption,
       politicalAgendasExtension: options.politicalAgendasExtension,
       removeNegativeGlobalEvents: options.removeNegativeGlobalEventsOption,
       showOtherPlayersVP: options.showOtherPlayersVP,

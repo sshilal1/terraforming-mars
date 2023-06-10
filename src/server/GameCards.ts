@@ -21,6 +21,7 @@ import {IStandardProjectCard} from './cards/IStandardProjectCard';
 import {CardFinder} from './CardFinder';
 import {IPreludeCard} from './cards/prelude/IPreludeCard';
 import {ICeoCard} from './cards/ceos/ICeoCard';
+import {SHIL_CARD_MANIFEST} from './cards/shil/ShilCardManifest';
 
 /**
  * Returns the cards available to a game based on its `GameOptions`.
@@ -52,6 +53,7 @@ export class GameCards {
       [gameOptions.turmoilExtension, TURMOIL_CARD_MANIFEST],
       [gameOptions.aresExtension, ARES_CARD_MANIFEST],
       [gameOptions.promoCardsOption, PROMO_CARD_MANIFEST],
+      [gameOptions.shilCardsOption, SHIL_CARD_MANIFEST],
       [gameOptions.communityCardsOption, COMMUNITY_CARD_MANIFEST],
       [gameOptions.moonExpansion, MOON_CARD_MANIFEST],
       [gameOptions.pathfindersExpansion, PATHFINDERS_CARD_MANIFEST],

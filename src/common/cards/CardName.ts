@@ -358,6 +358,7 @@ export enum CardName {
     THORGATE = 'Thorgate',
     UNITED_NATIONS_MARS_INITIATIVE = 'United Nations Mars Initiative',
     ACQUIRED_SPACE_AGENCY = 'Acquired Space Agency',
+    
     // Preludes:
     ALLIED_BANK = 'Allied Bank',
     BIOFUELS = 'Biofuels',
@@ -807,4 +808,9 @@ export enum CardName {
     XU = 'Xu',
     // CEO Preludes
     CO_LEADERSHIP = 'Co-leadership',
+
+    // shil expansion
+    DRAW_TEST = 'Draw Test Corp',
+    DRAW_TEST_2 = 'Draw Test Corp2',
+    DRAW_TEST_CARD = 'A Card To Draw'
 }

@@ -69,6 +69,9 @@ export default Vue.extend({
     promoCardsOption: {
       type: Boolean,
     },
+    shilCardsOption: {
+      type: Boolean,
+    },
     communityCardsOption: {
       type: Boolean,
     },
@@ -104,6 +107,7 @@ export default Vue.extend({
         ...this.colonies ? corpCardNames('colonies') : [],
         ...this.turmoil ? corpCardNames('turmoil') : [],
         ...this.promoCardsOption ? corpCardNames('promo') : [],
+        ...this.shilCardsOption ? corpCardNames('shil') : [],
         ...this.communityCardsOption ? corpCardNames('community') : [],
         ...this.moonExpansion ? corpCardNames('moon') : [],
         ...this.pathfindersExpansion ? corpCardNames('pathfinders') : [],
@@ -112,6 +116,9 @@ export default Vue.extend({
     };
   },
   methods: {
+    // log(message: any) {
+    //   console.log(message);
+    // },
     getItemsByGroup(group: Group): Array<CardName> {
       if (group === 'All') return GAME_MODULES.map((module) => this.cardsByModule[module]).flat();
       const corps = this.cardsByModule[group];
@@ -179,6 +186,7 @@ export default Vue.extend({
       case 'moon': return 'The Moon';
       case 'pathfinders': return 'Pathfinders';
       case 'ceo': return 'CEOs';
+      case 'shil': return 'Shils';
       }
     },
   },
@@ -203,6 +211,9 @@ export default Vue.extend({
     },
     promoCardsOption(enabled) {
       this.watchSelect('promo', enabled);
+    },
+    shilCardsOption(enabled) {
+      this.watchSelect('shil', enabled);
     },
     communityCardsOption(enabled) {
       this.watchSelect('community', enabled);
