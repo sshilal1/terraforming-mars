@@ -86,6 +86,8 @@ export class GameCards {
         return gameOptions.aresExtension;
       case 'ceo':
         return gameOptions.ceoExtension;
+      case 'shil':
+        return gameOptions.shilCardsOption;
       default:
         throw new Error(`Unhandled expansion type ${expansion}`);
       }

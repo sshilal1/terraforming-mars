@@ -358,7 +358,6 @@ export enum CardName {
     THORGATE = 'Thorgate',
     UNITED_NATIONS_MARS_INITIATIVE = 'United Nations Mars Initiative',
     ACQUIRED_SPACE_AGENCY = 'Acquired Space Agency',
-    
     // Preludes:
     ALLIED_BANK = 'Allied Bank',
     BIOFUELS = 'Biofuels',
@@ -725,7 +724,7 @@ export enum CardName {
     CONTROLLED_BLOOM = 'Controlled Bloom',
     TERRAFORMING_ROBOTS = 'Terraforming Robots',
     COPPS_COLONY = 'Copps Colony',
-    EMMET_VILLE = 'EmmetVille',
+    EMMETT_VILLE = 'EmmettVille',
 
     VENUS_FIRST_PATHFINDERS = 'Venus First:Pathfinders',
     VALUABLE_GASES_PATHFINDERS = 'Valuable Gases:Pathfinders',
@@ -812,5 +811,8 @@ export enum CardName {
     // shil expansion
     DRAW_TEST = 'Draw Test Corp',
     DRAW_TEST_2 = 'Draw Test Corp2',
-    DRAW_TEST_CARD = 'A Card To Draw'
+    DRAW_TEST_CARD = 'A Card To Draw',
+    COMMUNISTIC_ADJUSTMENT = 'Communistic Adjustment',
+    PANDEMIC = 'Pandemic',
+    MATING_SEASON = 'Mating Season'
 }
