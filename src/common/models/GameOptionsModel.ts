@@ -28,6 +28,7 @@ export type GameOptionsModel = {
   shilCardsOption: boolean,
   politicalAgendasExtension: AgendaStyle,
   removeNegativeGlobalEvents: boolean,
+  removeTerraformingLossOption: boolean,
   showOtherPlayersVP: boolean,
   showTimers: boolean,
   shuffleMapOption: boolean,

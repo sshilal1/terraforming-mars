@@ -44,6 +44,7 @@ export interface CreateGameModel {
   showTimers: boolean;
   fastModeOption: boolean;
   removeNegativeGlobalEventsOption: boolean;
+  removeTerraformingLossOption: boolean;
   includeVenusMA: boolean;
   includeFanMA: boolean;
   startingCorporations: number;

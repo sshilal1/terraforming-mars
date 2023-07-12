@@ -290,6 +290,13 @@
                                 </label>
                             </template>
 
+                            <template v-if="turmoil">
+                                <input type="checkbox" v-model="removeTerraformingLossOption" id="removeTerraformingLoss-checkbox">
+                                <label for="removeTerraformingLoss-checkbox">
+                                    <span v-i18n>Remove terraforming rating loss</span>
+                                </label>
+                            </template>
+
                         </div>
 
                         <div class="create-game-page-column" v-if="playersCount > 1">
@@ -577,6 +584,7 @@ export default (Vue as WithRefs<Refs>).extend({
       showTimers: true,
       fastModeOption: false,
       removeNegativeGlobalEventsOption: false,
+      removeTerraformingLossOption: false,
       includeVenusMA: true,
       includeFanMA: false,
       startingCorporations: 2,
@@ -956,6 +964,7 @@ export default (Vue as WithRefs<Refs>).extend({
       const showTimers = this.showTimers;
       const fastModeOption = this.fastModeOption;
       const removeNegativeGlobalEventsOption = this.removeNegativeGlobalEventsOption;
+      const removeTerraformingLossOption = this.removeTerraformingLossOption;
       const includeVenusMA = this.includeVenusMA;
       const includeFanMA = this.includeFanMA;
       const startingCorporations = this.startingCorporations;
@@ -1117,6 +1126,7 @@ export default (Vue as WithRefs<Refs>).extend({
         showTimers,
         fastModeOption,
         removeNegativeGlobalEventsOption,
+        removeTerraformingLossOption,
         includeVenusMA,
         includeFanMA,
         startingCorporations,

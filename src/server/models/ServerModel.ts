@@ -580,6 +580,7 @@ export class Server {
       shilCardsOption: options.shilCardsOption,
       politicalAgendasExtension: options.politicalAgendasExtension,
       removeNegativeGlobalEvents: options.removeNegativeGlobalEventsOption,
+      removeTerraformingLossOption: options.removeTerraformingLossOption,
       showOtherPlayersVP: options.showOtherPlayersVP,
       showTimers: options.showTimers,
       shuffleMapOption: options.shuffleMapOption,
