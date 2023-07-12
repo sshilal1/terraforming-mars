@@ -62,4 +62,5 @@ export interface CreateGameModel {
   ceoExtension: boolean;
   customCeos: Array<CardName>;
   startingCeos: number;
+  coloniesLength: number;
 }

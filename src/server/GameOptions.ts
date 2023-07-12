@@ -59,6 +59,7 @@ export type GameOptions = {
   escapeVelocityPeriod?: number;
   escapeVelocityPenalty?: number;
   twoCorpsVariant: boolean;
+  coloniesLength?: number;
 }
 
 export const DEFAULT_GAME_OPTIONS: GameOptions = {
@@ -107,4 +108,5 @@ export const DEFAULT_GAME_OPTIONS: GameOptions = {
   undoOption: false,
   venusNextExtension: false,
   twoCorpsVariant: false,
+  coloniesLength: 6,
 };

@@ -592,6 +592,7 @@ export class Server {
       twoCorpsVariant: options.twoCorpsVariant,
       venusNextExtension: options.venusNextExtension,
       undoOption: options.undoOption,
+      coloniesLength: options.coloniesLength,
     };
   }
 

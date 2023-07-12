@@ -276,6 +276,13 @@
                                 </label>
                             </template>
 
+                            <template v-if="colonies">
+                              <label for="startingCorpNum-checkbox">
+                              <input type="number" class="create-game-corporations-count" value="6" min="1" :max="10" v-model="coloniesLength" id="coloniesLength-checkbox">
+                                <span v-i18n>Colonies Length</span>
+                              </label>
+                            </template>
+
                             <template v-if="turmoil">
                                 <input type="checkbox" v-model="removeNegativeGlobalEventsOption" id="removeNegativeEvent-checkbox">
                                 <label for="removeNegativeEvent-checkbox">
@@ -588,6 +595,7 @@ export default (Vue as WithRefs<Refs>).extend({
       ceoExtension: false,
       customCeos: [],
       startingCeos: 3,
+      coloniesLength: 6,
     };
   },
   components: {
@@ -963,6 +971,7 @@ export default (Vue as WithRefs<Refs>).extend({
       const ceoExtension = this.ceoExtension;
       const customCeos = this.customCeos;
       const startingCeos = this.startingCeos;
+      const coloniesLength = this.coloniesLength;
       let clonedGamedId: undefined | GameId = undefined;
 
       // Check custom colony count
@@ -1130,6 +1139,7 @@ export default (Vue as WithRefs<Refs>).extend({
         ceoExtension,
         customCeos,
         startingCeos,
+        coloniesLength,
       };
       return JSON.stringify(dataToSend, undefined, 4);
     },

@@ -40,12 +40,17 @@ export class ColonyDealer {
     return deck;
   }
 
-  public drawColonies(players: number): void {
+  public drawColonies(players: number, coloniesLengthOverride?: number): void {
     const customColonies = this.gameOptions.customColoniesList;
     const colonies = customColonies.length === 0 ? this.gameColonies : this.gameColonies.filter((c) => customColonies.includes(c.name));
 
-    const count = (players + 2) +
-      (players <= 2 ? 1 : 0); // Two-player games and solo games get one more colony.
+    let count = 0;
+    if (coloniesLengthOverride) {
+      count = coloniesLengthOverride;
+    } else {
+      count = (players + 2) +
+        (players <= 2 ? 1 : 0); // Two-player games and solo games get one more colony.
+    }
 
     if (colonies.length < count) {
       throw new Error(`Not enough valid colonies to choose from (want ${count}, has ${colonies.length}.) Remember that colonies like Venus and Pallas are invalid without Venus or Turmoil.`);

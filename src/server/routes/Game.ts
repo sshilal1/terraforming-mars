@@ -126,6 +126,7 @@ export class GameHandler extends Handler {
             ceoExtension: gameReq.ceoExtension,
             customCeos: gameReq.customCeos,
             startingCeos: gameReq.startingCeos,
+            coloniesLength: gameReq.coloniesLength,
           };
 
           let game: Game;

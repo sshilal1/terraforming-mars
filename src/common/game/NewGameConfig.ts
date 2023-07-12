@@ -80,4 +80,5 @@ export interface NewGameConfig {
   twoCorpsVariant: boolean;
   customCeos: Array<CardName>;
   startingCeos: number;
+  coloniesLength: number;
 }
