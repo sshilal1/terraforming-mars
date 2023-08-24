@@ -9,6 +9,7 @@ import {StudwellingtonPlanitia} from './StudwellingtonPlanitia';
 import {RainestownGreens} from './RainestownGreens';
 import {Pandemic} from './Pandemic';
 import {MatingSeason} from './MatingSeason';
+import {TheJetsons} from './TheJetsons';
 
 export const SHIL_CARD_MANIFEST = new ModuleManifest({
   module: 'shil',
@@ -21,6 +22,7 @@ export const SHIL_CARD_MANIFEST = new ModuleManifest({
     [CardName.RAINESTOWN_GREENS]: {Factory: RainestownGreens},
     [CardName.PANDEMIC]: {Factory: Pandemic},
     [CardName.MATING_SEASON]: {Factory: MatingSeason},
+    [CardName.THE_JETSONS]: {Factory: TheJetsons},
   },
 
   // corporationCards: {

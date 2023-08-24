@@ -814,5 +814,6 @@ export enum CardName {
     DRAW_TEST_CARD = 'A Card To Draw',
     COMMUNISTIC_ADJUSTMENT = 'Communistic Adjustment',
     PANDEMIC = 'Pandemic',
-    MATING_SEASON = 'Mating Season'
+    MATING_SEASON = 'Mating Season',
+    THE_JETSONS = 'The Jetsons'
 }

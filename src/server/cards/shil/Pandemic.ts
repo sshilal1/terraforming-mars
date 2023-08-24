@@ -13,7 +13,7 @@ export class Pandemic extends ActionCard implements IProjectCard {
       type: CardType.ACTIVE,
       name: CardName.PANDEMIC,
       tags: [Tag.MICROBE],
-      cost: 15,
+      cost: 13,
 
       action: {},
 
