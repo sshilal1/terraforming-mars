@@ -1,18 +1,14 @@
 import {CardName} from '../../../common/cards/CardName';
-import {CardType} from '../../../common/cards/CardType';
 import {Size} from '../../../common/cards/render/Size';
-import {Card} from '../Card';
-import {ICorporationCard} from '../corporation/ICorporationCard';
-import {IProjectCard} from '../IProjectCard';
+import {CorporationCard} from '../corporation/CorporationCard';
 import {CardRenderer} from '../render/CardRenderer';
-import {DrawCards} from '../../deferredActions/DrawCards';
+import {ChooseCards} from '../../deferredActions/ChooseCards';
 import {LogHelper} from '../../LogHelper';
-import {Player} from '../../Player';
+import {IPlayer} from '../../IPlayer';
 
-export class JunkVentures extends Card implements ICorporationCard {
+export class JunkVentures extends CorporationCard {
   constructor() {
     super({
-      type: CardType.CORPORATION,
       name: CardName.JUNK_VENTURES,
       initialActionText: 'Discard the top 3 cards of the deck',
       startingMegaCredits: 43,
@@ -31,11 +27,11 @@ export class JunkVentures extends Card implements ICorporationCard {
     });
   }
 
-  public initialAction(player: Player) {
+  public initialAction(player: IPlayer) {
     const discardedCards = new Set<CardName>();
 
     for (let i = 0; i < 3; i++) {
-      const card = player.game.projectDeck.draw(player.game);
+      const card = player.game.projectDeck.drawLegacy(player.game);
       player.game.projectDeck.discard(card);
       discardedCards.add(card.name);
     }
@@ -44,21 +40,24 @@ export class JunkVentures extends Card implements ICorporationCard {
     return undefined;
   }
 
-  public canAct(player: Player): boolean {
+  public canAct(player: IPlayer): boolean {
     return player.game.projectDeck.discardPile.length >= 3;
   }
 
-  public action(player: Player) {
+  public action(player: IPlayer) {
     const game = player.game;
     game.projectDeck.shuffleDiscardPile();
 
-    const cards: Array<IProjectCard> = [];
+    const cards = [];
     for (let idx = 0; idx < 3; idx++) {
       const card = player.game.projectDeck.discardPile.pop();
-      if (card === undefined) break;
+      if (card === undefined) {
+        break;
+      }
       cards.push(card);
     }
 
-    return DrawCards.choose(player, cards, {keepMax: 1});
+    player.game.defer(new ChooseCards(player, cards, {keepMax: 1}));
+    return undefined;
   }
 }

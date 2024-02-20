@@ -12,13 +12,13 @@ describe('Viron', function() {
 
   beforeEach(function() {
     card = new Viron();
-    [/* skipped */, player] = testGame(1);
+    [/* game */, player] = testGame(1);
   });
 
   it('Should act', function() {
     const action = card.play(player);
 
-    expect(action).is.undefined;
+    cast(action, undefined);
 
     player.setCorporationForTest(card);
     const restrictedArea = new RestrictedArea();

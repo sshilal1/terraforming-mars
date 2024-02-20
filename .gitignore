@@ -22,3 +22,6 @@ assets/locales
 
 # Local Packages
 node_modules/
+
+# misc
+.gitconfig

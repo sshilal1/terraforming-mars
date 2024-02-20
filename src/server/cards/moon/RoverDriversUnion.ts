@@ -1,5 +1,5 @@
 import {CardName} from '../../../common/cards/CardName';
-import {Player} from '../../Player';
+import {IPlayer} from '../../IPlayer';
 import {CardType} from '../../../common/cards/CardType';
 import {IProjectCard} from '../IProjectCard';
 import {Tag} from '../../../common/cards/Tag';
@@ -7,7 +7,6 @@ import {CardRenderer} from '../render/CardRenderer';
 import {MoonExpansion} from '../../moon/MoonExpansion';
 import {Resource} from '../../../common/Resource';
 import {Card} from '../Card';
-import {CardRequirements} from '../requirements/CardRequirements';
 
 export class RoverDriversUnion extends Card implements IProjectCard {
   constructor() {
@@ -16,7 +15,7 @@ export class RoverDriversUnion extends Card implements IProjectCard {
       type: CardType.AUTOMATED,
       tags: [Tag.MOON],
       cost: 16,
-      requirements: CardRequirements.builder((b) => b.logisticRate(2)),
+      requirements: {logisticRate: 2},
       tr: {moonLogistics: 1},
 
       metadata: {
@@ -30,7 +29,7 @@ export class RoverDriversUnion extends Card implements IProjectCard {
     });
   }
 
-  public override bespokePlay(player: Player) {
+  public override bespokePlay(player: IPlayer) {
     MoonExpansion.ifMoon(player.game, (moonData) => {
       MoonExpansion.raiseLogisticRate(player);
       player.production.add(Resource.MEGACREDITS, moonData.logisticRate, {log: true});

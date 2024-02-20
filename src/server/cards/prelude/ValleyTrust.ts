@@ -1,19 +1,15 @@
 import {Tag} from '../../../common/cards/Tag';
-import {Player} from '../../Player';
 import {IPlayer} from '../../IPlayer';
-import {ICorporationCard} from '../corporation/ICorporationCard';
+import {CorporationCard} from '../corporation/CorporationCard';
 import {IProjectCard} from '../IProjectCard';
-import {SelectCard} from '../../inputs/SelectCard';
-import {Card} from '../Card';
 import {CardName} from '../../../common/cards/CardName';
-import {CardType} from '../../../common/cards/CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {played} from '../Options';
+import {PreludesExpansion} from '../../preludes/PreludesExpansion';
 
-export class ValleyTrust extends Card implements ICorporationCard {
+export class ValleyTrust extends CorporationCard {
   constructor() {
     super({
-      type: CardType.CORPORATION,
       name: CardName.VALLEY_TRUST,
       tags: [Tag.EARTH],
       startingMegaCredits: 37,
@@ -41,20 +37,13 @@ export class ValleyTrust extends Card implements ICorporationCard {
     return player.tags.cardTagCount(card, Tag.SCIENCE) * 2;
   }
 
-  public initialAction(player: Player) {
+  public initialAction(player: IPlayer) {
     const game = player.game;
-    const cardsDrawn: Array<IProjectCard> = [
-      game.preludeDeck.draw(game),
-      game.preludeDeck.draw(game),
-      game.preludeDeck.draw(game),
+    const cards = [
+      game.preludeDeck.drawLegacy(game),
+      game.preludeDeck.drawLegacy(game),
+      game.preludeDeck.drawLegacy(game),
     ];
-
-    return new SelectCard('Choose prelude card to play', 'Play', cardsDrawn, ([card]) => {
-      if (card.canPlay === undefined || card.canPlay(player)) {
-        return player.playCard(card);
-      } else {
-        throw new Error('You cannot pay for this card');
-      }
-    });
+    return PreludesExpansion.playPrelude(player, cards);
   }
 }

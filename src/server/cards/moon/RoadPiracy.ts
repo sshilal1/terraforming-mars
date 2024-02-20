@@ -1,20 +1,20 @@
 import {CardName} from '../../../common/cards/CardName';
-import {Player} from '../../Player';
+import {IPlayer} from '../../IPlayer';
 import {CardType} from '../../../common/cards/CardType';
 import {IProjectCard} from '../IProjectCard';
 import {Tag} from '../../../common/cards/Tag';
 import {CardRenderer} from '../render/CardRenderer';
-import {CardRequirements} from '../requirements/CardRequirements';
 import {Card} from '../Card';
 import {all, digit} from '../Options';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
-import {newMessage} from '../../logs/MessageBuilder';
+import {message} from '../../logs/MessageBuilder';
 import {AndOptions} from '../../inputs/AndOptions';
 import {SelectAmount} from '../../inputs/SelectAmount';
 import {Resource} from '../../../common/Resource';
 import {sum} from '../../../common/utils/utils';
 import {Message} from '../../../common/logs/Message';
+import {Priority, SimpleDeferredAction} from '../../deferredActions/DeferredAction';
 
 export class RoadPiracy extends Card implements IProjectCard {
   constructor() {
@@ -23,7 +23,7 @@ export class RoadPiracy extends Card implements IProjectCard {
       type: CardType.EVENT,
       tags: [Tag.MOON],
       cost: 10,
-      requirements: CardRequirements.builder((b) => b.logisticRate(3)),
+      requirements: {logisticRate: 3},
 
       metadata: {
         description: 'Requires 3 logistic rate. ' +
@@ -37,25 +37,21 @@ export class RoadPiracy extends Card implements IProjectCard {
     });
   }
 
-  private generateOption(player: Player, resource: Resource, title: Message, limit: number) {
-    const selectAmounts: Array<SelectAmount> = [];
-    const ledger: Map<Player, number> = new Map();
+  private generateOption(player: IPlayer, resource: Resource, title: Message, limit: number) {
+    const selectAmounts = [];
+    const ledger: Map<IPlayer, number> = new Map();
     for (const opponent of player.game.getPlayers()) {
       if (opponent === player) {
         continue;
       }
-      if (opponent.getResource(resource) > 0) {
-        const cb = (amount: number) => {
-          ledger.set(opponent, amount);
-          return undefined;
-        };
+      if (opponent.stock.get(resource) > 0 && !opponent.alloysAreProtected()) {
         const selectAmount =
           new SelectAmount(
-            newMessage('${0}', (b) => b.player(opponent)),
-            undefined,
-            cb,
-            0,
-            opponent.getResource(resource));
+            message('${0}', (b) => b.player(opponent)), undefined, 0, opponent.stock.get(resource))
+            .andThen((amount: number) => {
+              ledger.set(opponent, amount);
+              return undefined;
+            });
         selectAmounts.push(selectAmount);
       }
     }
@@ -70,27 +66,39 @@ export class RoadPiracy extends Card implements IProjectCard {
         ledger.clear();
         throw new Error(`You may only steal up to ${limit} ${resource} from all players`);
       }
-      for (const entry of ledger) {
-        entry[0].stealResource(resource, entry[1], player);
+      for (const [target, count] of ledger) {
+        target.maybeBlockAttack(player, (proceed) => {
+          if (proceed) {
+            target.stock.steal(resource, count, player);
+          }
+          return undefined;
+        });
       }
       return undefined;
     };
-    const option = new AndOptions(cb, ...selectAmounts);
+    // TODO(kberg): does title always have to be set separately? That's fixable.
+    const option = new AndOptions(...selectAmounts).andThen(cb);
     option.title = title;
     return option;
   }
 
-  public override bespokePlay(player: Player) {
+
+  public override bespokePlay(player: IPlayer) {
+    player.game.defer(new SimpleDeferredAction(player, () => this.do(player)), Priority.ATTACK_OPPONENT);
+    return undefined;
+  }
+
+  public do(player: IPlayer) {
     const game = player.game;
-    const stealSteel = newMessage('Steal ${0} steel', (b) => b.number(6));
-    const stealTitanium = newMessage('Steal ${0} titanium', (b) => b.number(4));
+    const stealSteel = message('Steal ${0} steel', (b) => b.number(6));
+    const stealTitanium = message('Steal ${0} titanium', (b) => b.number(4));
     if (game.isSoloMode()) {
       return new OrOptions(
-        new SelectOption(stealSteel, 'Steal steel', () => {
+        new SelectOption(stealSteel, 'Steal steel').andThen(() => {
           player.steel += 6;
           return undefined;
         }),
-        new SelectOption(stealTitanium, 'Steal titanium', () => {
+        new SelectOption(stealTitanium, 'Steal titanium').andThen(() => {
           player.titanium += 4;
           return undefined;
         }),
@@ -113,9 +121,7 @@ export class RoadPiracy extends Card implements IProjectCard {
       return undefined;
     }
 
-    options.options.push(new SelectOption('Do not steal', 'Confirm', () => {
-      return undefined;
-    }));
+    options.options.push(new SelectOption('Do not steal'));
     return options;
   }
 }

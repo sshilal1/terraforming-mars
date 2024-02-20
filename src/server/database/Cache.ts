@@ -1,4 +1,4 @@
-import {Game} from '../Game';
+import {IGame} from '../IGame';
 import {GameId, ParticipantId} from '../../common/Types';
 import {once} from 'events';
 import {EventEmitter} from 'events';
@@ -6,6 +6,7 @@ import * as prometheus from 'prom-client';
 import {Database} from './Database';
 import {CacheConfig} from './CacheConfig';
 import {Clock} from '../../common/Timer';
+import {SerializedGame} from '../SerializedGame';
 
 const metrics = {
   start: new prometheus.Gauge({
@@ -22,7 +23,7 @@ const metrics = {
 
 export class Cache extends EventEmitter {
   private loaded = false;
-  private readonly games = new Map<GameId, Game | undefined>();
+  private readonly games = new Map<GameId, IGame | undefined>();
   private readonly participantIds = new Map<ParticipantId, GameId>();
   private readonly db = Database.getInstance();
 
@@ -38,7 +39,13 @@ export class Cache extends EventEmitter {
   }
 
   private async getInstance(gameId: GameId) : Promise<void> {
-    const game = await this.db.getGame(gameId);
+    let game: SerializedGame;
+    try {
+      game = await this.db.getGame(gameId);
+    } catch (e) {
+      console.error(`getInstance for ${gameId}`, e);
+      return;
+    }
     if (this.games.get(gameId) === undefined) {
       this.games.set(gameId, undefined);
       const participantIds: Array<ParticipantId> = [];
@@ -99,7 +106,7 @@ export class Cache extends EventEmitter {
     }
   }
 
-  public async getGames(): Promise<{games:Map<GameId, Game | undefined>, participantIds:Map<ParticipantId, GameId>}> {
+  public async getGames(): Promise<{games:Map<GameId, IGame | undefined>, participantIds:Map<ParticipantId, GameId>}> {
     if (!this.loaded) {
       await once(this, 'loaded');
     }

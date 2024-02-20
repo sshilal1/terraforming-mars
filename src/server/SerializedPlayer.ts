@@ -3,6 +3,7 @@ import {CardName} from '../common/cards/CardName';
 import {Color} from '../common/Color';
 import {SerializedCard} from './SerializedCard';
 import {SerializedTimer} from '../common/SerializedTimer';
+import {UnderworldPlayerData} from './underworld/UnderworldData';
 
 interface DeprecatedFields {
 }
@@ -14,6 +15,7 @@ export interface SerializedPlayer extends DeprecatedFields{
     beginner: boolean;
     canUseHeatAsMegaCredits: boolean;
     canUseTitaniumAsMegacredits: boolean;
+    canUsePlantsAsMegaCredits: boolean;
     cardCost: number;
     cardDiscount: number;
     cardsInHand: Array<CardName>;
@@ -31,7 +33,8 @@ export interface SerializedPlayer extends DeprecatedFields{
     energyProduction: number;
     fleetSize: number;
     handicap: number;
-    hasIncreasedTerraformRatingThisGeneration: boolean;
+    // TODO(kberg): remove ? by 2024-01-30
+    hasIncreasedTerraformRatingThisGeneration?: boolean;
     hasTurmoilScienceTagBonus: boolean;
     heat: number;
     heatProduction: number;
@@ -58,7 +61,6 @@ export interface SerializedPlayer extends DeprecatedFields{
     steelProduction: number;
     steelValue: number;
     terraformRating: number;
-    terraformRatingAtGenerationStart: number;
     timer: SerializedTimer;
     titanium: number;
     titaniumProduction: number;
@@ -66,5 +68,6 @@ export interface SerializedPlayer extends DeprecatedFields{
     totalDelegatesPlaced: number;
     tradesThisGeneration: number;
     turmoilPolicyActionUsed: boolean;
+    underworldData: UnderworldPlayerData;
     victoryPointsByGeneration: Array<number>;
 }

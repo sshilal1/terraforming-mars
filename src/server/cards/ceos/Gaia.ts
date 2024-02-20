@@ -1,12 +1,12 @@
 import {CardName} from '../../../common/cards/CardName';
-import {Player} from '../../Player';
+import {IPlayer} from '../../IPlayer';
 import {PlayerInput} from '../../PlayerInput';
 import {CardRenderer} from '../render/CardRenderer';
 import {CeoCard} from './CeoCard';
 import {SpaceType} from '../../../common/boards/SpaceType';
 
 import {AresHandler} from '../../ares/AresHandler';
-import {isHazardTileType} from '../../../common/TileType';
+import {isHazardTileType} from '../../../common/AresTileType';
 
 export class Gaia extends CeoCard {
   constructor() {
@@ -23,7 +23,7 @@ export class Gaia extends CeoCard {
     });
   }
 
-  public action(player: Player): PlayerInput | undefined {
+  public action(player: IPlayer): PlayerInput | undefined {
     this.isDisabled = true;
     const board = player.game.board;
     // For every tile placed on the board, grant all the adjacency bonuses for that tile.
@@ -34,8 +34,8 @@ export class Gaia extends CeoCard {
       space.tile?.tileType !== undefined && space.player !== undefined && !isHazardTileType(space.tile.tileType) && space.spaceType !== SpaceType.COLONY,
     );
     tilesOnMars.forEach((space) => {
-      AresHandler.ifAres(player.game, () => {
-        AresHandler.earnAdjacencyBonusesForGaia(player, space);
+      AresHandler.ifAres(player.game, (aresData) => {
+        AresHandler.earnAdjacencyBonuses(aresData, player, space, {incrementMilestone: false, giveAresTileOwnerBonus: false});
       });
     });
     return undefined;

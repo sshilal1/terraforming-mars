@@ -12,7 +12,7 @@
         <template v-for="module in GAME_MODULES">
           <div class="corporations-filter-group" v-if="cardsByModule[module].length > 0" v-bind:key="module">
             <div class="corporations-filter-toolbox-cont">
-                <div><span v-i18n>{{moduleName(module)}}</span>&nbsp;<div :class="icon(module)"></div></div><br>
+                <div><span v-i18n>{{MODULE_NAMES[module]}}</span>&nbsp;<div :class="icon(module)"></div></div><br>
                 <div class="corporations-filter-toolbox">
                     <a href="#" v-i18n v-on:click.prevent="selectAll(module)">All</a> |
                     <a href="#" v-i18n v-on:click.prevent="selectNone(module)">None</a> |
@@ -35,7 +35,7 @@
 import Vue from 'vue';
 
 import {CardName} from '@/common/cards/CardName';
-import {GameModule, GAME_MODULES} from '@/common/cards/GameModule';
+import {GameModule, GAME_MODULES, MODULE_NAMES} from '@/common/cards/GameModule';
 import {byModule, byType, getCard, getCards, toName} from '@/client/cards/ClientCardManifest';
 import {CardType} from '@/common/cards/CardType';
 
@@ -55,6 +55,9 @@ export default Vue.extend({
       type: Boolean,
     },
     prelude: {
+      type: Boolean,
+    },
+    prelude2: {
       type: Boolean,
     },
     venusNext: {
@@ -103,6 +106,7 @@ export default Vue.extend({
         ...corpCardNames('base'),
         ...this.corporateEra ? corpCardNames('corpera') : [],
         ...this.prelude ? corpCardNames('prelude') : [],
+        ...this.prelude2 ? corpCardNames('prelude2') : [],
         ...this.venusNext ? corpCardNames('venus') : [],
         ...this.colonies ? corpCardNames('colonies') : [],
         ...this.turmoil ? corpCardNames('turmoil') : [],
@@ -113,6 +117,7 @@ export default Vue.extend({
         ...this.pathfindersExpansion ? corpCardNames('pathfinders') : [],
       ],
       GAME_MODULES: GAME_MODULES,
+      MODULE_NAMES: MODULE_NAMES,
     };
   },
   methods: {

@@ -1,18 +1,29 @@
-import {BasePlayerInput, PlayerInput} from '../PlayerInput';
+import {PlayerInput} from '../PlayerInput';
 import {InputResponse, isOrOptionsResponse} from '../../common/inputs/InputResponse';
-import {Player} from '../Player';
+import {IPlayer} from '../IPlayer';
+import {OrOptionsModel} from '../../common/models/PlayerInputModel';
+import {OptionsInput} from './OptionsPlayerInput';
 
-export class OrOptions extends BasePlayerInput {
-  public cb(): PlayerInput | undefined {
-    return undefined;
-  }
-  public options: Array<PlayerInput>;
+export class OrOptions extends OptionsInput<undefined> {
   constructor(...options: Array<PlayerInput>) {
-    super('or', 'Select one option');
-    this.options = options;
+    super('or', 'Select one option', options);
   }
 
-  public process(input: InputResponse, player: Player) {
+  public toModel(player: IPlayer): OrOptionsModel {
+    const initialIdx = this.options.findIndex((option) => option.eligibleForDefault !== false);
+    const model: OrOptionsModel = {
+      title: this.title,
+      buttonLabel: this.buttonLabel,
+      type: 'or',
+      options: this.options.map((option) => option.toModel(player)),
+    };
+    if (initialIdx > -1) {
+      model.initialIdx = initialIdx;
+    }
+    return model;
+  }
+
+  public process(input: InputResponse, player: IPlayer) {
     if (!isOrOptionsResponse(input)) {
       throw new Error('Not a valid OrOptionsResponse');
     }
@@ -20,6 +31,6 @@ export class OrOptions extends BasePlayerInput {
       throw new Error('Invalid index');
     }
     player.runInput(input.response, this.options[input.index]);
-    return this.cb();
+    return this.cb(undefined);
   }
 }

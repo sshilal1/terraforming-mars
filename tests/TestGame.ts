@@ -1,5 +1,6 @@
 import {Game} from '../src/server/Game';
-import {GameOptions} from '../src/server/GameOptions';
+import {IGame} from '../src/server/IGame';
+import {GameOptions} from '../src/server/game/GameOptions';
 import {TestPlayer} from './TestPlayer';
 import {SelectInitialCards} from '../src/server/inputs/SelectInitialCards';
 
@@ -33,6 +34,7 @@ function createPlayers(count: number, idSuffix: string): Array<TestPlayer> {
  *
  * Test game has a return type with a spread array operator.
  */
+// TODO(kberg): return IGame instead of Game
 export function testGame(count: number, customOptions?: Partial<TestGameOptions>, idSuffix = ''): [Game, ...Array<TestPlayer>] {
   const players = createPlayers(count, idSuffix);
 
@@ -53,7 +55,7 @@ export function testGame(count: number, customOptions?: Partial<TestGameOptions>
   return [game, ...players];
 }
 
-export function getTestPlayer(game: Game, idx: number): TestPlayer {
+export function getTestPlayer(game: IGame, idx: number): TestPlayer {
   const players = game.getPlayers();
   const length = players.length;
   if (idx >= length) {

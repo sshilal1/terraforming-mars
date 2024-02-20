@@ -22,7 +22,7 @@ export default Vue.extend({
   },
   computed: {
     url(): string {
-      const anchor = this.name.toLowerCase().replace(' ', '-'); // 'botanical-experience';
+      const anchor = this.name.toLowerCase().replaceAll(' ', '-');
       return 'https://github.com/terraforming-mars/terraforming-mars/wiki/Card-Details#' + anchor;
     },
   },

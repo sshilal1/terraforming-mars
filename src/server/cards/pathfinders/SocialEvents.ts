@@ -1,5 +1,4 @@
 import {IProjectCard} from '../IProjectCard';
-import {Player} from '../../Player';
 import {IPlayer} from '../../IPlayer';
 import {Card} from '../Card';
 import {CardType} from '../../../common/cards/CardType';
@@ -31,8 +30,8 @@ export class SocialEvents extends Card implements IProjectCard {
     return Math.floor((player.tags.count(Tag.MARS) + 1) / 2); // +1 is the "including this"
   }
 
-  public override bespokePlay(player: Player) {
-    player.increaseTerraformRatingSteps(this.getExpectedTr(player), {log: true});
+  public override bespokePlay(player: IPlayer) {
+    player.increaseTerraformRating(this.getExpectedTr(player), {log: true});
     return undefined;
   }
 }

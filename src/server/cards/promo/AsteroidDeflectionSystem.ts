@@ -5,7 +5,7 @@ import {CardName} from '../../../common/cards/CardName';
 import {CardType} from '../../../common/cards/CardType';
 import {CardResource} from '../../../common/CardResource';
 import {Tag} from '../../../common/cards/Tag';
-import {Player} from '../../Player';
+import {IPlayer} from '../../IPlayer';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../../../common/cards/render/Size';
 import {played} from '../Options';
@@ -45,10 +45,12 @@ export class AsteroidDeflectionSystem extends Card implements IActionCard, IProj
     return true;
   }
 
-  public action(player: Player) {
-    const topCard = player.game.projectDeck.draw(player.game);
-    if (topCard.tags.includes(Tag.SPACE)) player.addResourceTo(this);
-    player.game.log('${0} revealed and discarded ${1}', (b) => b.player(player).card(topCard));
+  public action(player: IPlayer) {
+    const topCard = player.game.projectDeck.drawLegacy(player.game);
+    player.game.log('${0} revealed and discarded ${1}', (b) => b.player(player).card(topCard, {tags: true}));
+    if (topCard.tags.includes(Tag.SPACE)) {
+      player.addResourceTo(this, {qty: 1, log: true});
+    }
     player.game.projectDeck.discard(topCard);
     return undefined;
   }

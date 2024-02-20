@@ -1,11 +1,11 @@
 import {expect} from 'chai';
 import {TestPlayer} from '../../TestPlayer';
 import {HeavyDutyRovers} from '../../../src/server/cards/moon/HeavyDutyRovers';
-import {IMoonData} from '../../../src/server/moon/IMoonData';
+import {MoonData} from '../../../src/server/moon/MoonData';
 import {MoonExpansion} from '../../../src/server/moon/MoonExpansion';
 import {TileType} from '../../../src/common/TileType';
 import {SpaceId} from '../../../src/common/Types';
-import {Player} from '../../../src/server/Player';
+import {IPlayer} from '../../../src/server/IPlayer';
 import {testGame} from '../../TestGame';
 import {Game} from '../../../src/server/Game';
 
@@ -13,7 +13,7 @@ describe('HeavyDutyRovers', () => {
   let player: TestPlayer;
   let game: Game;
   let card: HeavyDutyRovers;
-  let moonData: IMoonData;
+  let moonData: MoonData;
 
   beforeEach(() => {
     [game, player] = testGame(1, {moonExpansion: true});
@@ -47,7 +47,7 @@ describe('HeavyDutyRovers', () => {
     const [game, player, player2, player3] = testGame(3, {moonExpansion: true});
     moonData = MoonExpansion.moonData(game);
 
-    function addTile(spaceId: SpaceId, tileType: TileType, p: Player = player) {
+    function addTile(spaceId: SpaceId, tileType: TileType, p: IPlayer = player) {
       moonData.moon.getSpace(spaceId)!.tile = {tileType};
       moonData.moon.getSpace(spaceId).player = p;
     }

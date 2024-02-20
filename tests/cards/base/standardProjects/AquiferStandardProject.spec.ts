@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {cast, churnAction} from '../../../TestingUtils';
+import {cast, churnAction, runAllActions} from '../../../TestingUtils';
 import {AquiferStandardProject} from '../../../../src/server/cards/base/standardProjects/AquiferStandardProject';
 import {maxOutOceans} from '../../../TestingUtils';
 import {TestPlayer} from '../../../TestPlayer';
@@ -7,10 +7,8 @@ import {Game} from '../../../../src/server/Game';
 import {PoliticalAgendas} from '../../../../src/server/turmoil/PoliticalAgendas';
 import {Reds} from '../../../../src/server/turmoil/parties/Reds';
 import {Phase} from '../../../../src/common/Phase';
-import {SelectSpace} from '../../../../src/server/inputs/SelectSpace';
-import {SpaceType} from '../../../../src/common/boards/SpaceType';
-import {TileType} from '../../../../src/common/TileType';
 import {testGame} from '../../../TestGame';
+import {UnderworldTestHelper} from '../../../underworld/UnderworldTestHelper';
 
 describe('AquiferStandardProject', function() {
   let card: AquiferStandardProject;
@@ -19,8 +17,7 @@ describe('AquiferStandardProject', function() {
 
   beforeEach(function() {
     card = new AquiferStandardProject();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
   });
 
   it('Can act', function() {
@@ -33,25 +30,30 @@ describe('AquiferStandardProject', function() {
   it('action', function() {
     player.megaCredits = card.cost;
     player.setTerraformRating(20);
-    expect(game.board.getOceanCount()).eq(0);
+    expect(game.board.getOceanSpaces()).is.empty;
 
-    const selectSpace = cast(churnAction(card, player), SelectSpace);
-    const availableSpace = selectSpace.availableSpaces[0];
+    UnderworldTestHelper.assertPlaceOcean(player, churnAction(card, player));
 
-    expect(availableSpace.spaceType).eq(SpaceType.OCEAN);
-
-    selectSpace?.cb(availableSpace);
-
-    expect(availableSpace.tile!.tileType).eq(TileType.OCEAN);
     expect(player.getTerraformRating()).eq(21);
-    expect(game.board.getOceanCount()).eq(1);
+    expect(game.board.getOceanSpaces()).has.length(1);
   });
 
-  it('cannnot act when maximized', () => {
-    player.megaCredits = card.cost;
-    expect(card.canAct(player)).is.true;
+  it('Paying when the global parameter is at its goal is a valid stall action', () => {
+    player.megaCredits = 18;
+    expect(card.canAct(player)).eq(true);
+
     maxOutOceans(player);
-    expect(card.canAct(player)).is.false;
+
+    player.megaCredits = 18;
+    expect(player.getTerraformRating()).eq(23);
+    expect(card.canAct(player)).eq(true);
+
+    cast(card.action(player), undefined);
+    runAllActions(game);
+
+    expect(game.board.getOceanSpaces()).has.length(9);
+    expect(player.getTerraformRating()).eq(23);
+    expect(player.megaCredits).eq(0);
   });
 
   it('Can not act with reds', () => {

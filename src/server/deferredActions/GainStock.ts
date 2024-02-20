@@ -3,7 +3,7 @@ import {Units} from '../../common/Units';
 import {DeferredAction, Priority} from './DeferredAction';
 
 export type Options = {
-  cb?: () => void;
+  cb?(): void;
   log?: boolean;
 }
 
@@ -20,7 +20,7 @@ export class GainStock extends DeferredAction {
   }
 
   public execute() {
-    this.player.addUnits(this.units, {log: this.options.log});
+    this.player.stock.addUnits(this.units, {log: this.options.log});
     this.options.cb?.();
     return undefined;
   }

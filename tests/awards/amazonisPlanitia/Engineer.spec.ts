@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {testGame} from '../../TestGame';
-import {Engineer} from '../../../src/server/awards/amazonisPlanitia/Engineer';
+import {BESPOKE_PRODUCTION_CARDS, Engineer} from '../../../src/server/awards/amazonisPlanitia/Engineer';
 import {TestPlayer} from '../../TestPlayer';
 import {CardFinder} from '../../../src/server/CardFinder';
 import {Tardigrades} from '../../../src/server/cards/base/Tardigrades';
@@ -14,7 +14,7 @@ describe('Engineer', () => {
 
   beforeEach(() => {
     award = new Engineer();
-    [/* skipped */, player] = testGame(2);
+    [/* game */, player] = testGame(2);
   });
 
   it('score', () => {
@@ -32,12 +32,11 @@ describe('Engineer', () => {
 
   // A good way to prevent future failures is to duplicate the Robotic Workforce style of test.
   it('verify if production cards list is accurate', () => {
-    const failures: Array<string> = [];
+    const failures = [];
     const cardFinder = new CardFinder();
-    for (const cardName of Engineer.productionCards) {
+    for (const cardName of BESPOKE_PRODUCTION_CARDS) {
       const card = cardFinder.getCardByName(cardName)!;
-      const behavior = card.behavior;
-      if (behavior?.production !== undefined) {
+      if (Engineer.autoInclude(card)) {
         failures.push(cardName);
       }
     }
