@@ -5,7 +5,6 @@ import {CardType} from '../../../common/cards/CardType';
 import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {CardResource} from '../../../common/CardResource';
-import {CardRequirements} from '../requirements/CardRequirements';
 import {Player} from '../../Player';
 
 export class MatingSeason extends ActionCard implements IProjectCard {
@@ -15,7 +14,7 @@ export class MatingSeason extends ActionCard implements IProjectCard {
       name: CardName.MATING_SEASON,
       tags: [Tag.ANIMAL],
       cost: 18,
-      requirements: CardRequirements.builder((b) => b.tag(Tag.ANIMAL, 3)),
+      requirements: {tag: Tag.ANIMAL, count: 3},
 
       action: {},
 

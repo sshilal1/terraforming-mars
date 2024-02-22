@@ -31,7 +31,9 @@ export class AresHandler {
     let incrementMilestone = false;
     for (const adjacentSpace of player.game.board.getAdjacentSpaces(space)) {
       const grantedBonus = this.earnAdacencyBonus(space, adjacentSpace, player, options?.giveAresTileOwnerBonus);
-      incrementMilestone ||= grantedBonus;
+      if (!incrementMilestone) {
+        incrementMilestone = grantedBonus;
+      }
     }
     if (incrementMilestone && options?.incrementMilestone !== false) {
       const entry : MilestoneCount | undefined = aresData.milestoneResults.find((e) => e.id === player.id);
