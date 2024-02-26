@@ -1,31 +1,34 @@
-import {IProjectCard} from '../IProjectCard';
-import {Card} from '../Card';
 import {CardType} from '../../../common/cards/CardType';
+import {IProjectCard} from '../IProjectCard';
+import {CardName} from '../../../common/cards/CardName';
+import {CardRenderer} from '../render/CardRenderer';
+import {Card} from '../Card';
+import {all, digit} from '../Options';
 import {IPlayer} from '../../IPlayer';
 import {OrOptions} from '../../inputs/OrOptions';
 import {Resource} from '../../../common/Resource';
-import {CardName} from '../../../common/cards/CardName';
 import {SelectOption} from '../../inputs/SelectOption';
-import {CardRenderer} from '../render/CardRenderer';
-import {Size} from '../../../common/cards/render/Size';
-import {all, digit} from '../Options';
 import {message} from '../../logs/MessageBuilder';
 
-export class Sabotage extends Card implements IProjectCard {
+export class RecklessDetonation extends Card implements IProjectCard {
   constructor() {
     super({
       type: CardType.EVENT,
-      name: CardName.SABOTAGE,
+      name: CardName.RECKLESS_DETONATION,
       cost: 1,
 
+      requirements: {corruption: 2},
+
+      behavior: {
+        underworld: {excavate: 1},
+      },
+
       metadata: {
-        cardNumber: '121',
+        cardNumber: 'U06',
         renderData: CardRenderer.builder((b) => {
-          b.minus().titanium(3, {all, digit}).nbsp.or(Size.SMALL).nbsp;
-          b.minus().steel(4, {all, digit}).br.or(Size.SMALL).nbsp;
-          b.minus().megacredits(7, {all});
+          b.excavate(1).minus().steel(3, {digit, all}).asterix().or().titanium(2, {digit, all}).asterix();
         }),
-        description: 'Remove up to 3 titanium from any player, or 4 steel, or 7 M€.',
+        description: 'Requires 2 corruption. Excavate an underground resource. Remove up to 3 steel or 2 titanium from another player.',
       },
     });
   }
@@ -37,32 +40,24 @@ export class Sabotage extends Card implements IProjectCard {
   public override bespokePlay(player: IPlayer) {
     if (player.game.isSoloMode()) return undefined;
 
+    const availablePlayerTargets = player.game.getPlayers().filter((p) => p.id !== player.id);
     const availableActions = new OrOptions();
 
-    player.getOpponents().forEach((target) => {
+    availablePlayerTargets.forEach((target) => {
       if (target.titanium > 0 && !target.alloysAreProtected()) {
-        const amountRemoved = Math.min(3, target.titanium);
+        const amountRemoved = Math.min(2, target.titanium);
         const optionTitle = this.title(amountRemoved, 'titanium', target);
         availableActions.options.push(new SelectOption(optionTitle).andThen(() => {
-          target.stock.deduct(Resource.TITANIUM, 3, {log: true, from: player});
+          target.stock.deduct(Resource.TITANIUM, 2, {log: true, from: player});
           return undefined;
         }));
       }
 
       if (target.steel > 0 && !target.alloysAreProtected()) {
-        const amountRemoved = Math.min(4, target.steel);
+        const amountRemoved = Math.min(3, target.steel);
         const optionTitle = this.title(amountRemoved, 'steel', target);
         availableActions.options.push(new SelectOption(optionTitle).andThen(() => {
-          target.stock.deduct(Resource.STEEL, 4, {log: true, from: player});
-          return undefined;
-        }));
-      }
-
-      if (target.megaCredits > 0) {
-        const amountRemoved = Math.min(7, target.megaCredits);
-        const optionTitle = this.title(amountRemoved, 'M€', target);
-        availableActions.options.push(new SelectOption(optionTitle).andThen(() => {
-          target.stock.deduct(Resource.MEGACREDITS, 7, {log: true, from: player});
+          target.stock.deduct(Resource.STEEL, 3, {log: true, from: player});
           return undefined;
         }));
       }
@@ -77,4 +72,3 @@ export class Sabotage extends Card implements IProjectCard {
     return undefined;
   }
 }
-
