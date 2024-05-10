@@ -72,6 +72,12 @@
                                 <span v-i18n>Promos</span><span> 🆕</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#promo-cards" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
+                            <input type="checkbox" name="promo" id="shil-checkbox" v-model="shilCardsOption">
+                            <label for="shil-checkbox" class="expansion-button">
+                                <div class="create-game-expansion-icon expansion-icon-shil"></div>
+                                <span v-i18n>Shil</span>
+                            </label>
+
                             <div class="create-game-subsection-label" v-i18n>Fan-made</div>
 
                             <input type="checkbox" name="ares" id="ares-checkbox" v-model="aresExtension">
@@ -182,7 +188,7 @@
                             <h4 v-i18n>Options</h4>
 
                             <label for="startingCorpNum-checkbox">
-                            <input type="number" class="create-game-corporations-count" value="2" min="1" :max="6" v-model="startingCorporations" id="startingCorpNum-checkbox">
+                            <input type="number" class="create-game-corporations-count" value="2" min="1" :max="10" v-model="startingCorporations" id="startingCorpNum-checkbox">
                                 <span v-i18n>Starting Corporations</span>
                             </label>
 
@@ -295,10 +301,24 @@
                                 </label>
                             </template>
 
+                            <template v-if="colonies">
+                              <label for="startingCorpNum-checkbox">
+                              <input type="number" class="create-game-corporations-count" value="6" min="1" :max="10" v-model="coloniesLength" id="coloniesLength-checkbox">
+                                <span v-i18n>Colonies Length</span>
+                              </label>
+                            </template>
+
                             <template v-if="turmoil">
                                 <input type="checkbox" v-model="removeNegativeGlobalEventsOption" id="removeNegativeEvent-checkbox">
                                 <label for="removeNegativeEvent-checkbox">
                                     <span v-i18n>Remove negative Global Events</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#remove-negative-global-events" class="tooltip" target="_blank">&#9432;</a>
+                                </label>
+                            </template>
+
+                            <template v-if="turmoil">
+                                <input type="checkbox" v-model="removeTerraformingLossOption" id="removeTerraformingLoss-checkbox">
+                                <label for="removeTerraformingLoss-checkbox">
+                                    <span v-i18n>Remove terraforming rating loss</span>
                                 </label>
                             </template>
 
@@ -449,6 +469,7 @@
                   v-bind:colonies="colonies"
                   v-bind:turmoil="turmoil"
                   v-bind:promoCardsOption="promoCardsOption"
+                  v-bind:shilCardsOption="shilCardsOption"
                   v-bind:communityCardsOption="communityCardsOption"
                   v-bind:moonExpansion="moonExpansion"
                   v-bind:pathfindersExpansion="pathfindersExpansion"
@@ -471,6 +492,7 @@
                   ref="preludesFilter"
                   v-on:prelude-list-changed="updateCustomPreludes"
                   v-bind:promoCardsOption="promoCardsOption"
+                  v-bind:shilCardsOption="shilCardsOption"
                   v-bind:communityCardsOption="communityCardsOption"
                   v-bind:moonExpansion="moonExpansion"
                   v-bind:pathfindersExpansion="pathfindersExpansion"
@@ -579,6 +601,7 @@ export default (Vue as WithRefs<Refs>).extend({
       solarPhaseOption: false,
       shuffleMapOption: false,
       promoCardsOption: false,
+      shilCardsOption: false,
       communityCardsOption: false,
       aresExtension: false,
       politicalAgendasExtension: AgendaStyle.STANDARD,
@@ -588,6 +611,7 @@ export default (Vue as WithRefs<Refs>).extend({
       showTimers: true,
       fastModeOption: false,
       removeNegativeGlobalEventsOption: false,
+      removeTerraformingLossOption: false,
       includeVenusMA: true,
       includeFanMA: false,
       startingCorporations: 2,
@@ -607,6 +631,7 @@ export default (Vue as WithRefs<Refs>).extend({
       ceoExtension: false,
       customCeos: [],
       startingCeos: 3,
+      coloniesLength: 6,
       starWarsExpansion: false,
       underworldExpansion: false,
     };
@@ -627,6 +652,7 @@ export default (Vue as WithRefs<Refs>).extend({
       this.colonies = value;
       this.turmoil = value;
       this.promoCardsOption = value;
+      this.shilCardsOption = value;
       this.solarPhaseOption = value;
     },
     venusNext(value: boolean) {
@@ -875,6 +901,7 @@ export default (Vue as WithRefs<Refs>).extend({
       case 'moon': return model.moonExpansion;
       case 'pathfinders': return model.pathfindersExpansion;
       case 'ceo': return model.ceoExtension;
+      case 'shil': return model.shilCardsOption;
       case 'starwars': return model.starWarsExpansion;
       case 'underworld': return model.underworldExpansion;
       default: throw new Error('Unknown module: ' + module);
@@ -961,6 +988,7 @@ export default (Vue as WithRefs<Refs>).extend({
       const board = this.board;
       const seed = this.seed;
       const promoCardsOption = this.promoCardsOption;
+      const shilCardsOption = this.shilCardsOption;
       const communityCardsOption = this.communityCardsOption;
       const aresExtension = this.aresExtension;
       const politicalAgendasExtension = this.politicalAgendasExtension;
@@ -970,6 +998,7 @@ export default (Vue as WithRefs<Refs>).extend({
       const showTimers = this.showTimers;
       const fastModeOption = this.fastModeOption;
       const removeNegativeGlobalEventsOption = this.removeNegativeGlobalEventsOption;
+      const removeTerraformingLossOption = this.removeTerraformingLossOption;
       const includeVenusMA = this.includeVenusMA;
       const includeFanMA = this.includeFanMA;
       const startingCorporations = this.startingCorporations;
@@ -986,6 +1015,7 @@ export default (Vue as WithRefs<Refs>).extend({
       const ceoExtension = this.ceoExtension;
       const customCeos = this.customCeos;
       const startingCeos = this.startingCeos;
+      const coloniesLength = this.coloniesLength;
       let clonedGamedId: undefined | GameId = undefined;
 
       // Check custom colony count
@@ -1122,6 +1152,7 @@ export default (Vue as WithRefs<Refs>).extend({
         seed,
         solarPhaseOption,
         promoCardsOption,
+        shilCardsOption,
         communityCardsOption,
         aresExtension: aresExtension,
         politicalAgendasExtension: politicalAgendasExtension,
@@ -1131,6 +1162,7 @@ export default (Vue as WithRefs<Refs>).extend({
         showTimers,
         fastModeOption,
         removeNegativeGlobalEventsOption,
+        removeTerraformingLossOption,
         includeVenusMA,
         includeFanMA,
         startingCorporations,
@@ -1154,6 +1186,7 @@ export default (Vue as WithRefs<Refs>).extend({
         ceoExtension,
         customCeos,
         startingCeos,
+        coloniesLength,
         starWarsExpansion: this.starWarsExpansion,
         underworldExpansion: this.underworldExpansion,
       };

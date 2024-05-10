@@ -1,0 +1,22 @@
+Atalanta Planitia Lab
+Giant Solar Shade
+
+Urban Decomposers
+Towing A Comet
+
+
+UPDATE games  SET game = replace(game, 'Atalanta Planitia Lab', 'Temp1') WHERE game_id = 'ge304ae770a65' and save_id = 189;
+
+UPDATE games  SET game = replace(game, 'Urban Decomposers', 'Atalanta Planitia Lab') WHERE game_id = 'ge304ae770a65' and save_id = 189;
+
+UPDATE games  SET game = replace(game, 'Temp1', 'Urban Decomposers') WHERE game_id = 'ge304ae770a65' and save_id = 189;
+-----
+UPDATE games  SET game = replace(game, 'Giant Solar Shade', 'Temp1') WHERE game_id = 'ge304ae770a65' and save_id = 189;
+
+UPDATE games  SET game = replace(game, 'Towing A Comet', 'Giant Solar Shade') WHERE game_id = 'ge304ae770a65' and save_id = 189;
+
+UPDATE games  SET game = replace(game, 'Temp1', 'Towing A Comet') WHERE game_id = 'ge304ae770a65' and save_id = 189;
+
+select game_id from games;
+select save_id from games where game_id='gbff5f85b4eed';
+select game from games where game_id='gbff5f85b4eed' and save_id = 6;

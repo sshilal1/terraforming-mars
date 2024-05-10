@@ -194,9 +194,10 @@ const moduleAbbreviations: Record<GameModule, string> = {
   ares: 'a',
   moon: 'm',
   pathfinders: 'P',
-  ceo: 'l', // ceo abbreviation is 'l' for leader, since 'c' and 'C' are already taken
+  ceo: 'l', // ceo abbreviation is 'l' for leader, since both 'C' are already taken
   starwars: 'w',
   underworld: 'u',
+  shil: 's',
 };
 
 const ALL_MODULES = GAME_MODULES.map((m) => moduleAbbreviations[m]).join('');
@@ -312,6 +313,7 @@ export default (Vue as WithRefs<Refs>).extend({
         promo: true,
         pathfinders: true,
         ceo: true,
+        shil: true,
         starwars: true,
         underworld: true,
       },
@@ -496,6 +498,24 @@ export default (Vue as WithRefs<Refs>).extend({
       case 'colonies': return 'expansion-icon-colony';
       case 'moon': return 'expansion-icon-themoon';
       default: return `expansion-icon-${expansion}`;
+      }
+    },
+    expansionName(expansion: GameModule): string {
+      switch (expansion) {
+      case 'base': return 'Base';
+      case 'corpera': return 'Corporate Era';
+      case 'prelude': return 'Prelude';
+      case 'venus': return 'Venus Next';
+      case 'colonies': return 'Colonies';
+      case 'turmoil': return 'Turmoil';
+      case 'promo': return 'Promos';
+      case 'ares': return 'Ares';
+      case 'community': return 'Community';
+      case 'moon': return 'The Moon';
+      case 'pathfinders': return 'Pathfinders';
+      case 'ceo': return 'CEOs';
+      case 'shil': return 'Shils';
+      default: return `base`;
       }
     },
     filterByTags(card: ClientCard): boolean {

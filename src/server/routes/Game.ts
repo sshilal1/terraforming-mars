@@ -142,9 +142,11 @@ export class GameHandler extends Handler {
             moonExpansion: gameReq.moonExpansion,
             pathfindersExpansion: gameReq.pathfindersExpansion,
             promoCardsOption: gameReq.promoCardsOption,
+            shilCardsOption: gameReq.shilCardsOption,
             communityCardsOption: gameReq.communityCardsOption,
             solarPhaseOption: gameReq.solarPhaseOption,
             removeNegativeGlobalEventsOption: gameReq.removeNegativeGlobalEventsOption,
+            removeTerraformingLossOption: gameReq.removeTerraformingLossOption,
             includeVenusMA: gameReq.includeVenusMA,
 
             draftVariant: gameReq.draftVariant,
@@ -171,6 +173,7 @@ export class GameHandler extends Handler {
             ceoExtension: gameReq.ceoExtension,
             customCeos: gameReq.customCeos,
             startingCeos: gameReq.startingCeos,
+            coloniesLength: gameReq.coloniesLength,
             starWarsExpansion: gameReq.starWarsExpansion,
             underworldExpansion: gameReq.underworldExpansion,
           };

@@ -46,12 +46,14 @@ export interface NewGameConfig {
   // turmoilExtension: boolean;
   prelude2Expansion: boolean;
   promoCardsOption: boolean;
+  shilCardsOption: boolean;
   communityCardsOption: boolean;
   aresExtension: boolean;
   // aresHazards: boolean;
   politicalAgendasExtension: AgendaStyle;
   solarPhaseOption: boolean;
   removeNegativeGlobalEventsOption: boolean;
+  removeTerraformingLossOption: boolean;
   includeVenusMA: boolean;
   moonExpansion: boolean;
   pathfindersExpansion: boolean;
@@ -81,6 +83,7 @@ export interface NewGameConfig {
   twoCorpsVariant: boolean;
   customCeos: Array<CardName>;
   startingCeos: number;
+  coloniesLength: number;
   starWarsExpansion: boolean,
   underworldExpansion: boolean,
 }

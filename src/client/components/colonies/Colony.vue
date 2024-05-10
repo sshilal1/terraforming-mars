@@ -4,7 +4,7 @@
       <div :class="'colonies-fleet colonies-fleet-'+ colony.visitor"></div>
     </div>
     <div v-if="colony.isActive" :style="`margin-left: ${cubeXPosition}px; margin-top:${cubeYPosition + colonyCubeOffset}px;`" class="colony_cube"></div>
-    <template v-for="idx in [0, 1, 2]">
+    <template v-for="idx in [0, 1, 2, 3]">
       <div :key="idx" v-if="colony.colonies.length > idx" :style="`margin-left: ${colonyXPositions[idx]}px;  margin-top:${cubeYPosition}px;`" class="occupied-colony-space">
         <div :class="'board-cube colony-cube board-cube--' + colony.colonies[idx]"></div>
       </div>
@@ -136,7 +136,7 @@ export default Vue.extend({
       return this.colony.trackPosition * 56 + 27;
     },
     colonyXPositions(): Array<number> {
-      return [0, 1, 2].map((index) => index * 56 + 16);
+      return [0, 1, 2, 3].map((index) => index * 56 + 16);
     },
     colonyCubeOffset(): number {
       return 7;

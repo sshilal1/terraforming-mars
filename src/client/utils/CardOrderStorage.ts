@@ -25,6 +25,18 @@ export class CardOrderStorage {
     return hits.concat(misses);
   }
 
+  public static getCardsBySort(dir: string, cards: Array<CardModel>): Array<CardModel> {
+    return cards.sort((a: CardModel, b: CardModel) => {
+      if (a.calculatedCost && b.calculatedCost) {
+        if (dir === 'asc') {
+          return a.calculatedCost - b.calculatedCost;
+        }
+        return b.calculatedCost - a.calculatedCost;
+      }
+      return -1;
+    });
+  }
+
   public static updateCardOrder(playerId: string, order: {[x: string]: number}): void {
     try {
       localStorage.setItem(`${STORAGE_PREFIX}${playerId}`, JSON.stringify(order));

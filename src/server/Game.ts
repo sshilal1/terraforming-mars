@@ -261,7 +261,7 @@ export class Game implements IGame, Logger {
     // Add colonies stuff
     if (gameOptions.coloniesExtension) {
       const colonyDealer = new ColonyDealer(rng, gameOptions);
-      colonyDealer.drawColonies(players.length);
+      colonyDealer.drawColonies(players.length, gameOptions.coloniesLength);
       game.colonies = colonyDealer.colonies;
       game.discardedColonies = colonyDealer.discardedColonies;
     }

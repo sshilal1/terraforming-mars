@@ -39,6 +39,7 @@ const TAG_TO_ITEM_TYPE = new Map<Tag, CardRenderItemType>([
   [Tag.JOVIAN, CardRenderItemType.JOVIAN],
   [Tag.MOON, CardRenderItemType.MOON],
   [Tag.VENUS, CardRenderItemType.VENUS],
+  [Tag.MARS, CardRenderItemType.MARS],
 ]);
 
 export class CardRenderDynamicVictoryPoints implements ICardRenderDynamicVictoryPoints {

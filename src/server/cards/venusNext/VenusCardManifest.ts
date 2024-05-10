@@ -57,6 +57,7 @@ import {Viron} from './Viron';
 import {WaterToVenus} from './WaterToVenus';
 import {AirScrappingStandardProjectVariant} from './AirScrappingStandardProjectVariant';
 
+
 export const VENUS_CARD_MANIFEST = new ModuleManifest({
   module: 'venus',
   projectCards: {

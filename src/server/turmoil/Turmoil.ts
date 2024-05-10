@@ -247,9 +247,11 @@ export class Turmoil {
   // Launch the turmoil phase
   public endGeneration(game: IGame): void {
     // 1 - All player lose 1 TR
-    game.getPlayers().forEach((player) => {
-      player.decreaseTerraformRating();
-    });
+    if (!game.gameOptions.removeTerraformingLossOption) {
+      game.getPlayers().forEach((player) => {
+        player.decreaseTerraformRating();
+      });
+    }
 
     // 2 - Global Event
     if (this.currentGlobalEvent !== undefined) {

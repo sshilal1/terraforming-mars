@@ -45,6 +45,9 @@
     <template v-else-if="title === CardName.AGRICOLA_INC">
       <span class="card-agricola-logo">Agricola Inc</span>
     </template>
+    <template v-else-if="title === CardName.DRAW_TEST">
+      <span class="card-agricola-logo">Draw Test</span>
+    </template>
     <template v-else-if="title === CardName.ARCADIAN_COMMUNITIES">
       <span class="card-arcadian-logo"><span>Arcadian</span><br><span>Communities</span></span>
     </template>

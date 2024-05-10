@@ -27,8 +27,10 @@ export type GameOptionsModel = {
   preludeExtension: boolean,
   prelude2Expansion: boolean,
   promoCardsOption: boolean,
+  shilCardsOption: boolean,
   politicalAgendasExtension: AgendaStyle,
   removeNegativeGlobalEvents: boolean,
+  removeTerraformingLossOption: boolean,
   showOtherPlayersVP: boolean,
   showTimers: boolean,
   shuffleMapOption: boolean,
@@ -41,5 +43,6 @@ export type GameOptionsModel = {
   twoCorpsVariant: boolean,
   venusNextExtension: boolean,
   undoOption: boolean,
+  coloniesLength?: number
   underworldExpansion: boolean;
 }

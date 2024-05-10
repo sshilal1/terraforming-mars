@@ -988,4 +988,17 @@ export enum CardName {
   STANDARD_TECHNOLOGY_UNDERWORLD = 'Standard Technology:u',
   HACKERS_UNDERWORLD = 'Hackers:u',
   HIRED_RAIDERS_UNDERWORLD = 'Hired Raiders:u',
+
+  // shil expansion
+  DRAW_TEST = 'Draw Test Corp',
+  DRAW_TEST_2 = 'Draw Test Corp2',
+  DRAW_TEST_CARD = 'A Card To Draw',
+  COMMUNISTIC_ADJUSTMENT = 'Communistic Adjustment',
+  PANDEMIC = 'Pandemic',
+  MATING_SEASON = 'Mating Season',
+  THE_JETSONS = 'The Jetsons',
+  COPPS_COLONY = 'Copps Colony',
+  EMMETT_VILLE = 'EmmettVille',
+  STUDWELLINGTON_PLANITIA = 'Studwellington Planitia',
+  RAINESTOWN_GREENS = 'Rainestown Greens',
 }

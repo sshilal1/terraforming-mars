@@ -15,6 +15,7 @@
               <div v-if="isPoliticalAgendasOn" class="create-game-expansion-icon expansion-icon-agendas"></div>
               <div v-if="gameOptions.ceoExtension" class="create-game-expansion-icon expansion-icon-ceo"></div>
               <div v-if="gameOptions.underworldExpansion" class="create-game-expansion-icon expansion-icon-underworld"></div>
+              <div v-if="gameOptions.shilExtension" class="create-game-expansion-icon expansion-icon-shil"></div>
             </li>
 
             <li><div class="setup-item" v-i18n>Board:</div>

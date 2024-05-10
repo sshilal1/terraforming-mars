@@ -392,8 +392,10 @@ export class Server {
       preludeExtension: options.preludeExtension,
       prelude2Expansion: options.prelude2Expansion,
       promoCardsOption: options.promoCardsOption,
+      shilCardsOption: options.shilCardsOption,
       politicalAgendasExtension: options.politicalAgendasExtension,
       removeNegativeGlobalEvents: options.removeNegativeGlobalEventsOption,
+      removeTerraformingLossOption: options.removeTerraformingLossOption,
       showOtherPlayersVP: options.showOtherPlayersVP,
       showTimers: options.showTimers,
       shuffleMapOption: options.shuffleMapOption,
@@ -406,6 +408,7 @@ export class Server {
       twoCorpsVariant: options.twoCorpsVariant,
       venusNextExtension: options.venusNextExtension,
       undoOption: options.undoOption,
+      coloniesLength: options.coloniesLength,
       underworldExpansion: options.underworldExpansion,
     };
   }

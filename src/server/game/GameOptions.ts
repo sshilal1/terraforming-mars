@@ -24,12 +24,14 @@ export type GameOptions = {
   prelude2Expansion: boolean;
   turmoilExtension: boolean;
   promoCardsOption: boolean;
+  shilCardsOption: boolean;
   communityCardsOption: boolean;
   aresExtension: boolean;
   aresHazards: boolean;
   politicalAgendasExtension: AgendaStyle;
   solarPhaseOption: boolean;
   removeNegativeGlobalEventsOption: boolean;
+  removeTerraformingLossOption: boolean;
   includeVenusMA: boolean;
   moonExpansion: boolean;
   pathfindersExpansion: boolean;
@@ -62,6 +64,7 @@ export type GameOptions = {
   escapeVelocityPeriod?: number;
   escapeVelocityPenalty?: number;
   twoCorpsVariant: boolean;
+  coloniesLength?: number;
 }
 
 export const DEFAULT_GAME_OPTIONS: GameOptions = {
@@ -96,9 +99,11 @@ export const DEFAULT_GAME_OPTIONS: GameOptions = {
   preludeExtension: false,
   prelude2Expansion: false,
   promoCardsOption: false,
+  shilCardsOption: false,
   randomMA: RandomMAOptionType.NONE,
   requiresMoonTrackCompletion: false,
   removeNegativeGlobalEventsOption: false,
+  removeTerraformingLossOption: false,
   requiresVenusTrackCompletion: false,
   showOtherPlayersVP: false,
   showTimers: true,
@@ -113,4 +118,5 @@ export const DEFAULT_GAME_OPTIONS: GameOptions = {
   undoOption: false,
   venusNextExtension: false,
   twoCorpsVariant: false,
+  coloniesLength: 6,
 };
