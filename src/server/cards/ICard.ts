@@ -19,6 +19,8 @@ import {OneOrArray} from '../../common/utils/types';
 import {JSONValue} from '../../common/Types';
 import {IStandardProjectCard} from './IStandardProjectCard';
 import {Warning} from '../../common/cards/Warning';
+import {Resource} from '../../common/Resource';
+import {Units} from '../../common/Units';
 
 /*
  * Represents a card which has an action that itself allows a player
@@ -35,8 +37,6 @@ export interface IHasCheckLoops {
 export function isIHasCheckLoops(object: any): object is IHasCheckLoops {
   return object.getCheckLoops !== undefined;
 }
-
-export type DynamicTRSource = (player: IPlayer) => TRSource;
 
 export interface ICard {
   name: CardName;
@@ -107,8 +107,9 @@ export interface ICard {
    *   or undefined if added by a neutral player.
    * @param cardOwner the player who owns THIS CARD.
    * @param space the space that was just identified.
+   * @param fromExcavate when true, this identifacation came from excavating an unidentified space.
    */
-  onIdentification?(identifyingPlayer: IPlayer | undefined, cardOwner: IPlayer, space: Space): void;
+  onIdentification?(identifyingPlayer: IPlayer | undefined, cardOwner: IPlayer, space: Space, fromExcavate: boolean): void;
 
   /**
    * Optional callback when any player excavates a space.
@@ -118,7 +119,10 @@ export interface ICard {
    */
   onExcavation?(player: IPlayer, space: Space): void;
 
+  onProductionGain?(player: IPlayer, resource: Resource, amount: number): void;
   onProductionPhase?(player: IPlayer): void;
+
+  onColonyAdded?(player: IPlayer, cardOwner: IPlayer): void;
 
   cost?: number; /** Used with IProjectCard and PreludeCard. */
   type: CardType;
@@ -131,8 +135,31 @@ export interface ICard {
   warnings: Set<Warning>;
 
   behavior?: Behavior,
+
+  /**
+   * Returns the contents of the card's production box.
+   *
+   * Use with Robotic Workforce and Cyberia Systems.
+   *
+   * Prefer this to `produce` and prefer `behavior` to this.
+   */
+  productionBox?(player: IPlayer): Units;
+
+  /**
+   * Applies the production change for the card's production box.
+   *
+   * Use with Robotic Workforce and Cyberia Systems.
+   * (Special case for Small Open Pit Mine.)
+   *
+   * Prefer both `productionBox` and `behavior` over this.
+   */
   produce?(player: IPlayer): void;
-  tr?: TRSource | DynamicTRSource;
+
+  /** Terraform Rating predicted when this card is played */
+  tr?: TRSource;
+  /** Terraform Rating predicted when this card is played */
+  computeTr?(player: IPlayer): TRSource;
+
   resourceCount: number;
   resourceType?: CardResource;
   protectedResources?: boolean;

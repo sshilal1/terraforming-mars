@@ -6,7 +6,7 @@ import {SpaceName} from '../../../src/server/SpaceName';
 import {TileType} from '../../../src/common/TileType';
 import {resetBoard, runAllActions} from '../../TestingUtils';
 import {TestPlayer} from '../../TestPlayer';
-import {UnderworldTestHelper} from '../../underworld/UnderworldTestHelper';
+import {assertPlaceCity} from '../../assertions';
 
 describe('LavaTubeSettlement', function() {
   let card: LavaTubeSettlement;
@@ -21,28 +21,28 @@ describe('LavaTubeSettlement', function() {
   });
 
   it('Cannot play without energy production', function() {
-    expect(player.simpleCanPlay(card)).is.not.true;
+    expect(card.canPlay(player)).is.not.true;
   });
 
   it('Cannot play if no volcanic spaces left', function() {
     player.production.add(Resource.ENERGY, 1);
-    game.addTile(player, game.board.getSpace(SpaceName.THARSIS_THOLUS), {tileType: TileType.LAVA_FLOWS});
-    game.addTile(player, game.board.getSpace(SpaceName.ARSIA_MONS), {tileType: TileType.LAVA_FLOWS});
-    game.addTile(player, game.board.getSpace(SpaceName.PAVONIS_MONS), {tileType: TileType.LAVA_FLOWS});
+    game.addTile(player, game.board.getSpaceOrThrow(SpaceName.THARSIS_THOLUS), {tileType: TileType.LAVA_FLOWS});
+    game.addTile(player, game.board.getSpaceOrThrow(SpaceName.ARSIA_MONS), {tileType: TileType.LAVA_FLOWS});
+    game.addTile(player, game.board.getSpaceOrThrow(SpaceName.PAVONIS_MONS), {tileType: TileType.LAVA_FLOWS});
 
     const anotherPlayer = TestPlayer.RED.newPlayer();
-    game.board.getSpace(SpaceName.ASCRAEUS_MONS).player = anotherPlayer; // land claim
+    game.board.getSpaceOrThrow(SpaceName.ASCRAEUS_MONS).player = anotherPlayer; // land claim
 
-    expect(player.simpleCanPlay(card)).is.not.true;
+    expect(card.canPlay(player)).is.not.true;
   });
 
   it('Should play', function() {
     player.production.add(Resource.ENERGY, 1);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(card.canPlay(player)).is.true;
 
     card.play(player);
     runAllActions(game);
 
-    UnderworldTestHelper.assertPlaceCity(player, player.popWaitingFor());
+    assertPlaceCity(player, player.popWaitingFor());
   });
 });

@@ -35,6 +35,7 @@ import {SelectResource} from '../inputs/SelectResource';
 import {RemoveResourcesFromCard} from '../deferredActions/RemoveResourcesFromCard';
 import {isIProjectCard} from '../cards/IProjectCard';
 import {MAXIMUM_HABITAT_RATE, MAXIMUM_LOGISTICS_RATE, MAXIMUM_MINING_RATE, MAX_OCEAN_TILES, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE} from '../../common/constants';
+import {CardName} from '../../common/cards/CardName';
 
 export class Executor implements BehaviorExecutor {
   public canExecute(behavior: Behavior, player: IPlayer, card: ICard, canAffordOptions?: CanAffordOptions) {
@@ -151,6 +152,11 @@ export class Executor implements BehaviorExecutor {
         if (game.board.getAvailableSpacesForType(player, behavior.city.on ?? 'city', canAffordOptions).length === 0) {
           return false;
         }
+      } else {
+        // Special case for Star Vegas. The space may already be occupied.
+        if (game.board.getSpaceOrThrow(behavior.city.space).tile !== undefined) {
+          return false;
+        }
       }
     }
 
@@ -176,16 +182,15 @@ export class Executor implements BehaviorExecutor {
           robotCards: arctac.robotCards !== undefined,
         });
         const cards = action.getCards();
-        const count = cards[0].length + cards[1].length;
-        if (count === 0) {
+        if (cards.length === 0) {
           return false;
         }
         // Not playable if the behavior is based on spending a resource
         // from itself to add to itself, like Applied Science.
-        if (count === 1 && (behavior.spend?.resourcesHere ?? 0 > 0)) {
+        if (cards.length === 1 && (behavior.spend?.resourcesHere ?? 0 > 0)) {
           // TODO(kberg): also check wither arctac.min + spend is enough.
           // but that's just to make this future-proof.
-          if (cards[0][0]?.name === card.name) {
+          if (cards[0]?.name === card.name) {
             return false;
           }
         }
@@ -239,6 +244,21 @@ export class Executor implements BehaviorExecutor {
       }
     }
 
+    if (behavior.underworld !== undefined) {
+      const underworld = behavior.underworld;
+      if (underworld.identify !== undefined) {
+        if (card.name === CardName.NEUTRINOGRAPH || player.cardIsInEffect(CardName.NEUTRINOGRAPH)) {
+          // Special case for Neutrinograph. Excavatable spaces are ones that are unidentified or reidentifiable.
+          if (UnderworldExpansion.excavatableSpaces(player).length === 0) {
+            return false;
+          }
+        } else {
+          if (UnderworldExpansion.identifiableSpaces(player).length === 0) {
+            return false;
+          }
+        }
+      }
+    }
     return true;
   }
 
@@ -444,8 +464,11 @@ export class Executor implements BehaviorExecutor {
     }
     if (behavior.city !== undefined) {
       if (behavior.city.space !== undefined) {
-        const space = player.game.board.getSpace(behavior.city.space);
+        const space = player.game.board.getSpaceOrThrow(behavior.city.space);
         player.game.addCity(player, space);
+        if (space.tile !== undefined) { // Should never be undefined
+          space.tile.card = card.name;
+        }
       } else {
         player.game.defer(new PlaceCityTile(player, {on: behavior.city.on}));
       }
@@ -544,6 +567,17 @@ export class Executor implements BehaviorExecutor {
         }
       }
     }
+
+    if (behavior.log !== undefined) {
+      this.log(behavior.log, player, card);
+    }
+  }
+
+  private log(message: string, player: IPlayer, card: ICard) {
+    const replaced = message
+      .replaceAll('${player}', '${0}')
+      .replaceAll('${card}', '${1}');
+    player.game.log(replaced, (b) => b.player(player).card(card));
   }
 
   public onDiscard(behavior: Behavior, player: IPlayer, _card: ICard) {
@@ -588,7 +622,7 @@ export class Executor implements BehaviorExecutor {
       temperature: behavior.global?.temperature,
       oxygen: (behavior.global?.oxygen ?? 0) + (behavior.greenery !== undefined ? 1 : 0),
       venus: behavior.global?.venus,
-      oceans: behavior.ocean !== undefined ? 1 : undefined,
+      oceans: behavior.ocean !== undefined ? (behavior.ocean.count ?? 1) : undefined,
 
       moonHabitat: (behavior.moon?.habitatRate ?? 0) + (behavior.moon?.habitatTile !== undefined ? 1 : 0),
       moonMining: (behavior.moon?.miningRate ?? 0) + (behavior.moon?.mineTile !== undefined ? 1 : 0),

@@ -13,6 +13,7 @@ export interface SerializedPlayer extends DeprecatedFields{
     actionsTakenThisRound: number;
     actionsThisGeneration: Array<CardName>;
     beginner: boolean;
+    canUseCorruptionAsMegacredits: boolean;
     canUseHeatAsMegaCredits: boolean;
     canUseTitaniumAsMegacredits: boolean;
     canUsePlantsAsMegaCredits: boolean;
@@ -33,8 +34,7 @@ export interface SerializedPlayer extends DeprecatedFields{
     energyProduction: number;
     fleetSize: number;
     handicap: number;
-    // TODO(kberg): remove ? by 2024-01-30
-    hasIncreasedTerraformRatingThisGeneration?: boolean;
+    hasIncreasedTerraformRatingThisGeneration: boolean;
     hasTurmoilScienceTagBonus: boolean;
     heat: number;
     heatProduction: number;

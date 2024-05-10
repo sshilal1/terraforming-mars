@@ -28,9 +28,9 @@ describe('SpecializedSettlement', function() {
 
   it('Can play', () => {
     player.production.override({energy: 0});
-    expect(player.simpleCanPlay(card)).is.false;
+    expect(card.canPlay(player)).is.false;
     player.production.override({energy: 1});
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(card.canPlay(player)).is.true;
   });
 
   it('play', function() {
@@ -126,10 +126,14 @@ describe('SpecializedSettlement', function() {
 
     const roboticWorkforce = new RoboticWorkforce();
     expect(roboticWorkforce.canPlay(player)).is.false;
-    expect(roboticWorkforce.play(player)).is.undefined;
 
     player.production.override(Units.of({energy: 1}));
-    const selectCard = cast(roboticWorkforce.play(player), SelectCard);
+
+    expect(roboticWorkforce.canPlay(player)).is.true;
+
+    cast(roboticWorkforce.play(player), undefined);
+    runAllActions(game);
+    const selectCard = cast(player.popWaitingFor(), SelectCard);
     expect(selectCard.cards).deep.eq([card]);
     selectCard.cb([selectCard.cards[0]]);
     expect(player.production.asUnits()).deep.eq(Units.of({megacredits: 3, heat: 1}));

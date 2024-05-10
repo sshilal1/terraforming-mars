@@ -389,8 +389,8 @@
     "Select how to pay for City standard project": "‘도시 건설’ 일반 프로젝트의 수행 비용에 대한 지불 방법 선택",
     "Select how to pay for Colony standard project": "‘개척기지 건설’ 일반 프로젝트의 수행 비용에 대한 지불 방법 선택",
     "Pay with Heat": "열 자원으로 지불",
-    "Increase your M€ production by 5": "메가크레딧 생산력 5 상승",
-    "Increase your plant production by 2": "식물 생산력 2 상승",
+    "Increase your M€ production 5 steps": "메가크레딧 생산력 5 상승",
+    "Increase your plant production 2 steps": "식물 생산력 2 상승",
     "Increase +MC": "메가크레딧 생산력 상승",
     "Increase +plants": "식물 생산력 상승",
 
@@ -492,7 +492,7 @@
     "Raise Venus": "금성개척률 올리기",
 
     "Select card to double robots resource": "로봇 자원을 두 배로 만들 카드 선택",
-    "Select card to link with Self-Replicating Robots": "자가 복제 로봇에 연결할 카드 선택",
+    "Select card to link with Self-replicating Robots": "자가 복제 로봇에 연결할 카드 선택",
     "Double resource": "자원 두 배로 만들기",
     "Link card": "카드 연결하기",
 

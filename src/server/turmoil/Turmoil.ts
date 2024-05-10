@@ -19,7 +19,7 @@ import {IPlayer} from '../IPlayer';
 import {SendDelegateToArea} from '../deferredActions/SendDelegateToArea';
 import {SelectParty} from '../inputs/SelectParty';
 import {Policy, PolicyId, policyDescription} from './Policy';
-import {PlayerId} from '@/common/Types';
+import {PlayerId} from '../../common/Types';
 
 export type NeutralPlayer = 'NEUTRAL';
 export type Delegate = IPlayer | NeutralPlayer;
@@ -338,7 +338,7 @@ export class Turmoil {
 
   public setNewChairman(newChairman : Delegate, game: IGame, setAgenda: boolean = true, gainTR: boolean = true) {
     // Change the chairman
-    if (this.chairman) {
+    if (this.chairman && game.beholdTheEmperor !== true) {
       // Return the current Chairman to reserve
       this.delegateReserve.add(this.chairman);
     }
@@ -448,9 +448,9 @@ export class Turmoil {
     return Array.from(new Set(this.delegateReserve));
   }
 
-  /** Return true if `playerId` has delegates in reserve. */
-  public hasDelegatesInReserve(playerId: Delegate): boolean {
-    return this.getAvailableDelegateCount(playerId) > 0;
+  /** Return true if `player` has delegates in reserve. */
+  public hasDelegatesInReserve(player: Delegate): boolean {
+    return this.getAvailableDelegateCount(player) > 0;
   }
 
   /**

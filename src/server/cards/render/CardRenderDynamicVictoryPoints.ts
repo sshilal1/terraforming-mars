@@ -45,6 +45,9 @@ const TAG_TO_ITEM_TYPE = new Map<Tag, CardRenderItemType>([
 export class CardRenderDynamicVictoryPoints implements ICardRenderDynamicVictoryPoints {
   public targetOneOrMore: boolean = false; // marking target to be one or more res (Search for Life)
   public anyPlayer: boolean = false; // Law Suit
+  public asterisk: boolean | undefined = undefined;
+  public asFraction: boolean | undefined = undefined;
+
   constructor(public item: CardRenderItem | undefined, public points: number, public target: number) {}
 
   public static resource(type: CardResource, points: number, target: number): CardRenderDynamicVictoryPoints {
@@ -62,15 +65,18 @@ export class CardRenderDynamicVictoryPoints implements ICardRenderDynamicVictory
     return new CardRenderDynamicVictoryPoints(new CardRenderItem(itemType, 1, {played: true}), points, target);
   }
   public static oceans(points: number, target: number): CardRenderDynamicVictoryPoints {
-    const item = new CardRenderItem(CardRenderItemType.OCEANS);
-    item.size = Size.SMALL;
-    return new CardRenderDynamicVictoryPoints(item, points, target);
+    const inner = new CardRenderItem(CardRenderItemType.OCEANS, -1, {size: Size.SMALL});
+    const item = new CardRenderDynamicVictoryPoints(inner, points, target);
+    item.asterisk = true;
+    return item;
   }
-  public static cities(points: number, target: number, any: boolean = false): CardRenderDynamicVictoryPoints {
+  public static cities(points: number, target: number, any: boolean = false, asterisk: boolean = false): CardRenderDynamicVictoryPoints {
     const item = new CardRenderItem(CardRenderItemType.CITY);
     item.size = Size.SMALL;
     item.anyPlayer = any;
-    return new CardRenderDynamicVictoryPoints(item, points, target);
+    const vps = new CardRenderDynamicVictoryPoints(item, points, target);
+    vps.asterisk = asterisk;
+    return vps;
   }
   public static searchForLife(): CardRenderDynamicVictoryPoints {
     const item = new CardRenderDynamicVictoryPoints(new CardRenderItem(CardRenderItemType.SCIENCE), 3, 3);
@@ -110,6 +116,12 @@ export class CardRenderDynamicVictoryPoints implements ICardRenderDynamicVictory
   public static any(points: number): CardRenderDynamicVictoryPoints {
     const item = new CardRenderDynamicVictoryPoints(undefined, points, points);
     item.anyPlayer = true;
+    return item;
+  }
+  public static undergroundShelters(): CardRenderDynamicVictoryPoints {
+    const item = new CardRenderDynamicVictoryPoints(new CardRenderItem(CardRenderItemType.UNDERGROUND_SHELTERS), 1, 3);
+    item.asterisk = true;
+    item.asFraction = true;
     return item;
   }
 }

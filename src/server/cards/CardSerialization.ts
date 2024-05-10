@@ -1,4 +1,4 @@
-import {CardFinder} from '../CardFinder';
+import {newProjectCard} from '../createCard';
 import {SerializedCard} from '../SerializedCard';
 import {isCeoCard} from './ceos/ICeoCard';
 import {IProjectCard} from './IProjectCard';
@@ -25,7 +25,7 @@ export function serializeProjectCard(card: IProjectCard): SerializedCard {
   if (card instanceof SelfReplicatingRobots) {
     serialized.targetCards = card.targetCards.map((t) => {
       return {
-        card: {name: t.card.name},
+        card: {name: t.name},
         resourceCount: t.resourceCount,
       };
     });
@@ -45,8 +45,8 @@ export function serializeProjectCard(card: IProjectCard): SerializedCard {
   return serialized;
 }
 
-export function deserializeProjectCard(element: SerializedCard, cardFinder: CardFinder): IProjectCard {
-  const card = cardFinder.getProjectCardByName(element.name);
+export function deserializeProjectCard(element: SerializedCard): IProjectCard {
+  const card = newProjectCard(element.name);
   if (card === undefined) {
     throw new Error(`Card ${element.name} not found`);
   }
@@ -65,12 +65,10 @@ export function deserializeProjectCard(element: SerializedCard, cardFinder: Card
   if (card instanceof SelfReplicatingRobots && element.targetCards !== undefined) {
     card.targetCards = [];
     element.targetCards.forEach((targetCard) => {
-      const foundTargetCard = cardFinder.getProjectCardByName(targetCard.card.name);
+      const foundTargetCard = newProjectCard(targetCard.card.name);
       if (foundTargetCard !== undefined) {
-        card.targetCards.push({
-          card: foundTargetCard,
-          resourceCount: targetCard.resourceCount,
-        });
+        foundTargetCard.resourceCount = targetCard.resourceCount;
+        card.targetCards.push(foundTargetCard);
       } else {
         console.warn('did not find card for SelfReplicatingRobots', targetCard);
       }

@@ -12,10 +12,11 @@ import {Space} from './boards/Space';
 import {LogMessageBuilder} from './logs/LogMessageBuilder';
 import {LogMessage} from '../common/logs/LogMessage';
 import {Phase} from '../common/Phase';
-import {IPlayer} from './IPlayer';
+import {DraftType, IPlayer} from './IPlayer';
 import {PlayerId, GameId, SpectatorId, SpaceId, isGameId} from '../common/Types';
 import {CardResource} from '../common/CardResource';
-import {AndThen, DeferredAction, Priority} from './deferredActions/DeferredAction';
+import {AndThen, DeferredAction} from './deferredActions/DeferredAction';
+import {Priority} from './deferredActions/Priority';
 import {DeferredActionsQueue} from './deferredActions/DeferredActionsQueue';
 import {SerializedGame} from './SerializedGame';
 import {SpaceBonus} from '../common/boards/SpaceBonus';
@@ -126,7 +127,7 @@ export interface IGame extends Logger {
   playerHasPassed(player: IPlayer): void;
   hasResearched(player: IPlayer): boolean;
   playerIsFinishedWithResearchPhase(player: IPlayer): void;
-  playerIsFinishedWithDraftingPhase(initialDraft: boolean, player: IPlayer, cards : Array<IProjectCard>): void;
+  playerIsFinishedWithDraftingPhase(type: DraftType, player: IPlayer, cards : Array<IProjectCard>): void;
   playerIsFinishedTakingActions(): void;
   // Part of final greenery placement.
   canPlaceGreenery(player: IPlayer): boolean;
@@ -150,6 +151,16 @@ export interface IGame extends Logger {
   // a tile on The Moon.
   addTile(player: IPlayer, space: Space, tile: Tile): void;
   simpleAddTile(player: IPlayer, space: Space, tile: Tile): void;
+  /**
+   * Gives all the bonuses a player may gain when placing a tile on a space.
+   *
+   * This includes bonuses on the map, from oceans, Ares tiles, Turmoil, Colonies, etc.
+   */
+  grantPlacementBonuses(player: IPlayer, space: Space, coveringExistingTile: boolean): void
+
+  /**
+   * Gives all the bonuses from a space on the map.
+   */
   grantSpaceBonuses(player: IPlayer, space: Space): void;
   grantSpaceBonus(player: IPlayer, spaceBonus: SpaceBonus, count?: number): void;
   addGreenery(player: IPlayer, space: Space, shouldRaiseOxygen?: boolean): void;

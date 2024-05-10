@@ -4,15 +4,14 @@ import {ICorporationCard} from './cards/corporation/ICorporationCard';
 import {IGame, isIGame} from './IGame';
 import {Payment, PaymentOptions} from '../common/inputs/Payment';
 import {SpendableCardResource} from '../common/inputs/Spendable';
-import {ICard, IActionCard, DynamicTRSource} from './cards/ICard';
+import {ICard, IActionCard} from './cards/ICard';
 import {TRSource} from '../common/cards/TRSource';
 import {IProjectCard} from './cards/IProjectCard';
 import {PlayerInput} from './PlayerInput';
 import {Resource} from '../common/Resource';
 import {CardResource} from '../common/CardResource';
 import {SelectCard} from './inputs/SelectCard';
-import {Priority} from './deferredActions/DeferredAction';
-import {RobotCard} from './cards/promo/SelfReplicatingRobots';
+import {Priority} from './deferredActions/Priority';
 import {SerializedPlayer} from './SerializedPlayer';
 import {Timer} from '../common/Timer';
 import {AllOptions, DrawOptions} from './deferredActions/DrawCards';
@@ -38,8 +37,10 @@ export type ResourceSource = IPlayer | GlobalEventName | ICard;
 export type CanAffordOptions = Partial<PaymentOptions> & {
   cost: number,
   reserveUnits?: Units,
-  tr?: TRSource | DynamicTRSource,
+  tr?: TRSource,
 }
+
+export type DraftType = 'initial' | 'prelude' | 'standard';
 
 /**
  * Behavior when playing a card:
@@ -86,6 +87,8 @@ export interface IPlayer {
   canUseTitaniumAsMegacredits: boolean;
   // Martian Lumber Corp
   canUsePlantsAsMegacredits: boolean;
+  // Friends in High Places
+  canUseCorruptionAsMegacredits: boolean;
 
   // This generation / this round
   actionsTakenThisRound: number;
@@ -102,7 +105,6 @@ export interface IPlayer {
   ceoCardsInHand: Array<IProjectCard>;
   playedCards: Array<IProjectCard>;
   draftedCards: Array<IProjectCard>;
-  draftedCorporations: Array<ICorporationCard>;
   cardCost: number;
   needsToDraft?: boolean;
 
@@ -159,7 +161,7 @@ export interface IPlayer {
   getTitaniumValue(): number;
   increaseTitaniumValue(): void;
   decreaseTitaniumValue(): void;
-  getSelfReplicatingRobotsTargetCards(): Array<RobotCard>;
+  getSelfReplicatingRobotsTargetCards(): Array<IProjectCard>;
   getSteelValue(): number;
   increaseSteelValue(): void;
   decreaseSteelValue(): void;
@@ -177,11 +179,11 @@ export interface IPlayer {
   plantsAreProtected(): boolean;
   alloysAreProtected(): boolean;
   /**
+   * Returns true when this player can lose |minQuantity| units of production.
    *
-   * @param resource
-   * @param minQuantity
+   * This typically means they have the required units of production, and that production
+   * isn't protected.
    */
-  canReduceAnyProduction(resource: Resource, minQuantity?: number): boolean;
   canHaveProductionReduced(resource: Resource, minQuantity: number, attacker: IPlayer): boolean;
   maybeBlockAttack(perpetrator: IPlayer, cb: (proceed: boolean) => PlayerInput | undefined): void;
 
@@ -258,17 +260,16 @@ export interface IPlayer {
   runProductionPhase(): void;
   finishProductionPhase(): void;
   worldGovernmentTerraforming(): void;
-  dealForDraft(quantity: number, cards: Array<IProjectCard>): void;
 
   /**
    * Ask the player to draft from a set of cards.
    *
-   * @param initialDraft when true, this is part of the first generation draft.
+   * @param type the type of draft being asked for.
    * @param passTo  The player _this_ player passes remaining cards to.
    * @param passedCards The cards received from the draw, or from the prior player. If empty, it's the first
    *   step in the draft, and this function will deal cards.
    */
-  askPlayerToDraft(initialDraft: boolean, passTo: IPlayer, passedCards?: Array<IProjectCard>): void;
+  askPlayerToDraft(type: DraftType, passTo: IPlayer, passedCards?: Array<IProjectCard>): void;
   runResearchPhase(draftVariant: boolean): void;
   getCardCost(card: IProjectCard): number;
 
@@ -282,7 +283,7 @@ export interface IPlayer {
   availableHeat(): number;
   spendHeat(amount: number, cb?: () => (undefined | PlayerInput)) : PlayerInput | undefined;
 
-  playCard(selectedCard: IProjectCard, payment?: Payment, cardAction?: CardAction): undefined;
+  playCard(selectedCard: IProjectCard, payment?: Payment, cardAction?: CardAction): void;
   onCardPlayed(card: IProjectCard): void;
   playAdditionalCorporationCard(corporationCard: ICorporationCard): void;
   playCorporationCard(corporationCard: ICorporationCard): void;
@@ -296,7 +297,6 @@ export interface IPlayer {
   takeActionForFinalGreenery(): void;
   getPlayableCards(): Array<PlayableCard>;
   canPlay(card: IProjectCard): boolean | YesAnd;
-  simpleCanPlay(card: IProjectCard, canAffordOptions?: CanAffordOptions): boolean | YesAnd;
   canSpend(payment: Payment, reserveUnits?: Units): boolean;
   payingAmount(payment: Payment, options?: Partial<PaymentOptions>): number;
   /**
