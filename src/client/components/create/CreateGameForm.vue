@@ -271,6 +271,11 @@
                                 <span v-i18n>Set Predefined Game</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#set-predefined-game" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
+                            <label for="startingCards-checkbox">
+                            <input type="number" class="create-game-corporations-count" value="10" min="1" :max="20" v-model="startingCards" id="startingCards-checkbox">
+                              <span v-i18n>Starting Project Cards</span>
+                            </label>
+
                             <div v-if="seededGame">
                                 <input type="text" name="clonedGamedId" v-model="clonedGameId" />
                             </div>
@@ -659,6 +664,7 @@ export default (Vue as WithRefs<Refs>).extend({
       customCeos: [],
       startingCeos: 3,
       coloniesLength: 6,
+      startingCards: 10,
       starWarsExpansion: false,
       underworldExpansion: false,
       preludeDraftVariant: undefined,
@@ -1067,6 +1073,7 @@ export default (Vue as WithRefs<Refs>).extend({
       const customCeos = this.customCeos;
       const startingCeos = this.startingCeos;
       const coloniesLength = this.coloniesLength;
+      const startingCards = this.startingCards;
       let clonedGamedId: undefined | GameId = undefined;
 
       // Check custom colony count
@@ -1240,6 +1247,7 @@ export default (Vue as WithRefs<Refs>).extend({
         customCeos,
         startingCeos,
         coloniesLength,
+        startingCards,
         starWarsExpansion: this.starWarsExpansion,
         underworldExpansion: this.underworldExpansion,
       };

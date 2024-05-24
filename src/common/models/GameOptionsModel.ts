@@ -46,5 +46,6 @@ export type GameOptionsModel = {
   venusNextExtension: boolean,
   undoOption: boolean,
   coloniesLength?: number
+  startingCards: number
   underworldExpansion: boolean;
 }

@@ -70,4 +70,6 @@ export interface CreateGameModel {
   twoCorpsVariant: boolean;
   underworldExpansion: boolean,
   venusNext: boolean;
+  coloniesLength: number,
+  startingCards: number,
 }

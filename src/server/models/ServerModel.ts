@@ -413,6 +413,7 @@ export class Server {
       venusNextExtension: options.venusNextExtension,
       undoOption: options.undoOption,
       coloniesLength: options.coloniesLength,
+      startingCards: options.startingCards,
       underworldExpansion: options.underworldExpansion,
     };
   }
