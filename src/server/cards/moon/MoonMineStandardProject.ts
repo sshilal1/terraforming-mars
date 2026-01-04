@@ -11,7 +11,7 @@ import {AltSecondaryTag} from '../../../common/cards/render/AltSecondaryTag';
 export class MoonMineStandardProject extends StandardProjectCard {
   constructor(properties = {
     name: CardName.MOON_MINE_STANDARD_PROJECT,
-    cost: 20,
+    cost: 18,
     reserveUnits: {titanium: 1},
     tr: {moonMining: 1},
     tilesBuilt: [TileType.MOON_MINE],
@@ -19,8 +19,8 @@ export class MoonMineStandardProject extends StandardProjectCard {
     metadata: {
       cardNumber: '',
       renderData: CardRenderer.builder((b) =>
-        b.standardProject('Spend 20 M€ and 1 titanium to place a mine on The Moon, raise the mining rate 1 step, and raise steel production 1 step.', (eb) => {
-          eb.megacredits(20).titanium(1).startAction.moonMine({secondaryTag: AltSecondaryTag.MOON_MINING_RATE}).production((pb) => pb.steel(1));
+        b.standardProject('Spend 18 M€ and 1 titanium to place a mine on The Moon, raise the mining rate 1 step, and raise steel production 1 step.', (eb) => {
+          eb.megacredits(18).titanium(1).startAction.moonMine({secondaryTag: AltSecondaryTag.MOON_MINING_RATE}).production((pb) => pb.steel(1));
         }),
       ),
     },

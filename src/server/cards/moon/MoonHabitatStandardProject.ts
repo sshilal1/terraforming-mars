@@ -12,7 +12,7 @@ import {AltSecondaryTag} from '../../../common/cards/render/AltSecondaryTag';
 export class MoonHabitatStandardProject extends StandardProjectCard {
   constructor(properties = {
     name: CardName.MOON_HABITAT_STANDARD_PROJECT,
-    cost: 22,
+    cost: 20,
     reserveUnits: {titanium: 1},
     tr: {moonHabitat: 1},
     tilesBuilt: [TileType.MOON_HABITAT],
@@ -20,8 +20,8 @@ export class MoonHabitatStandardProject extends StandardProjectCard {
     metadata: {
       cardNumber: '',
       renderData: CardRenderer.builder((b) =>
-        b.standardProject('Spend 22 M€ and 1 titanium to place a habitat on The Moon and raise your M€ production 1 step.', (eb) => {
-          eb.megacredits(22).titanium(1).startAction.moonHabitat({secondaryTag: AltSecondaryTag.MOON_HABITAT_RATE}).production((pb) => pb.megacredits(1));
+        b.standardProject('Spend 20 M€ and 1 titanium to place a habitat on The Moon and raise your M€ production 1 step.', (eb) => {
+          eb.megacredits(20).titanium(1).startAction.moonHabitat({secondaryTag: AltSecondaryTag.MOON_HABITAT_RATE}).production((pb) => pb.megacredits(1));
         }),
       ),
     },
