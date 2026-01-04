@@ -10,7 +10,7 @@ import {AltSecondaryTag} from '../../../common/cards/render/AltSecondaryTag';
 export class MoonRoadStandardProject extends StandardProjectCard {
   constructor(properties = {
     name: CardName.MOON_ROAD_STANDARD_PROJECT,
-    cost: 18,
+    cost: 16,
     reserveUnits: {steel: 1},
     tr: {moonLogistics: 1},
     tilesBuilt: [TileType.MOON_ROAD],
@@ -18,8 +18,8 @@ export class MoonRoadStandardProject extends StandardProjectCard {
     metadata: {
       cardNumber: '',
       renderData: CardRenderer.builder((b) =>
-        b.standardProject('Spend 18 M€ and 1 steel to place a road on The Moon and raise the Logistics Rate 1 step.', (eb) => {
-          eb.megacredits(18).steel(1).startAction.moonRoad({secondaryTag: AltSecondaryTag.MOON_LOGISTICS_RATE});
+        b.standardProject('Spend 16 M€ and 1 steel to place a road on The Moon and raise the Logistics Rate 1 step.', (eb) => {
+          eb.megacredits(16).steel(1).startAction.moonRoad({secondaryTag: AltSecondaryTag.MOON_LOGISTICS_RATE});
         }),
       ),
     },

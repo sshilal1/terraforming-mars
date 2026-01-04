@@ -720,6 +720,11 @@ export class Player implements IPlayer {
       cost -= 2;
     }
 
+    // Global Moon tag discount when Moon expansion is enabled
+    if (card.tags.includes(Tag.MOON) && this.game.gameOptions.moonExpansion) {
+      cost -= 2;
+    }
+
     return Math.max(cost, 0);
   }
 

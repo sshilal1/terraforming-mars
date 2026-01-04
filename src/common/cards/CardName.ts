@@ -1060,4 +1060,24 @@ export enum CardName {
   STANDARD_TECHNOLOGY_UNDERWORLD = 'Standard Technology:u',
   HACKERS_UNDERWORLD = 'Hackers:u',
   HIRED_RAIDERS_UNDERWORLD = 'Hired Raiders:u',
+
+  // Shil
+  SOPHON_SURVEILLANCE_NETWORK = 'Sophon Surveillance Network',
+  EMMETT_VILLE = 'Emmett Ville',
+  MATING_SEASON = 'Mating Season',
+  PANDEMIC = 'Pandemic',
+  THE_JETSONS = 'The Jetsons',
+  COPPS_COLONY = 'Copps Colony',
+  RAINESTOWN_GREENS = 'Rainestown Greens',
+  STUDWELLINGTON_PLANITIA = 'Studwellington Planitia',
+  DRAW_TEST_CARD = 'Draw Test Card',
+  POWER_OF_FRIENDSHIP = 'Power Of Friendship',
+  FLORIDA_GRASS = 'Florida Grass',
+  // Apollo Moon Cards
+  ARMSTRONG_OBSERVATORY = 'Armstrong Observatory',
+  ALDRIN_CYCLER_STATION = 'Aldrin Cycler Station',
+  TRANQUILITY_BASE_MEMORIAL = 'Tranquility Base Memorial',
+  COLLINS_ORBITAL_COMMAND = 'Collins Orbital Command',
+  EAGLE_MODULE_ARCHIVES = 'Eagle Module Archives',
+  ONE_SMALL_STEP_FOUNDATION = 'One Small Step Foundation',
 }

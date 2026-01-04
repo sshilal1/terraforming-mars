@@ -55,11 +55,15 @@ export class SelectInitialCards extends OptionsInput<undefined> {
     }
 
     if (game.gameOptions.preludeExtension) {
+      const preludesToPlay = Number(game.gameOptions.preludesToPlay ?? 2);
+      const preludeTitle = preludesToPlay === 1 ?
+        'Select 1 Prelude card' :
+        `Select ${preludesToPlay} Prelude cards`;
       this.push('prelude',
-        new SelectCard(titles.SELECT_PRELUDE_TITLE, undefined, player.dealtPreludeCards, {min: 2, max: 2})
+        new SelectCard(preludeTitle, undefined, player.dealtPreludeCards, {min: preludesToPlay, max: preludesToPlay})
           .andThen((preludeCards) => {
-            if (preludeCards.length !== 2) {
-              throw new InputError('Only select 2 preludes');
+            if (preludeCards.length !== preludesToPlay) {
+              throw new InputError(`Only select ${preludesToPlay} prelude${preludesToPlay !== 1 ? 's' : ''}`);
             }
             player.preludeCardsInHand.push(...preludeCards);
             return undefined;
@@ -78,7 +82,7 @@ export class SelectInitialCards extends OptionsInput<undefined> {
     }
 
     this.push('project',
-      new SelectCard(titles.SELECT_PROJECTS_TITLE, undefined, player.dealtProjectCards, {min: 0, max: 10})
+      new SelectCard(titles.SELECT_PROJECTS_TITLE, undefined, player.dealtProjectCards, {min: 0, max: game.gameOptions.startingProjectCards})
         .andThen((cards) => {
           player.cardsInHand.push(...cards);
           return undefined;
@@ -100,6 +104,7 @@ export class SelectInitialCards extends OptionsInput<undefined> {
     if (corporation.name !== CardName.BEGINNER_CORPORATION && player.cardsInHand.length * cardCost > corporation.startingMegaCredits) {
       player.cardsInHand = [];
       player.preludeCardsInHand = [];
+      console.log('we ARE here', player.cardsInHand.length * cardCost, corporation.startingMegaCredits);
       throw new InputError('Too many cards selected');
     }
 

@@ -38,6 +38,7 @@ export type GameOptions = {
   ceoExtension: boolean;
   starWarsExpansion: boolean;
   underworldExpansion: boolean;
+  shilExpansion: boolean;
 
   expansions: Record<Expansion, boolean>,
 
@@ -62,6 +63,8 @@ export type GameOptions = {
   customCeos: ReadonlyArray<CardName>;
   startingCeos: number;
   startingPreludes: number;
+  startingProjectCards: number;
+  preludesToPlay: number;
   /** Moon must be completed to end the game */
   requiresMoonTrackCompletion: boolean;
   /** Venus must be completed to end the game */
@@ -109,6 +112,7 @@ export const DEFAULT_GAME_OPTIONS: GameOptions = {
     ceo: false,
     starwars: false,
     underworld: false,
+    shil: false,
   },
   fastModeOption: false,
   includeFanMA: false,
@@ -136,9 +140,12 @@ export const DEFAULT_GAME_OPTIONS: GameOptions = {
   startingCeos: constants.CEO_CARDS_DEALT_PER_PLAYER,
   startingCorporations: constants.CORPORATION_CARDS_DEALT_PER_PLAYER,
   startingPreludes: constants.PRELUDE_CARDS_DEALT_PER_PLAYER,
+  startingProjectCards: constants.PROJECT_CARDS_DEALT_PER_PLAYER,
+  preludesToPlay: 2,
   starWarsExpansion: false,
   turmoilExtension: false,
   underworldExpansion: false,
+  shilExpansion: false,
   undoOption: false,
   venusNextExtension: false,
   twoCorpsVariant: false,

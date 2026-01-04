@@ -10,6 +10,7 @@ export const FLOATERS_VALUE = 3;
 export const MICROBES_VALUE = 2;
 export const OCEAN_BONUS = 2;
 export const CORPORATION_CARDS_DEALT_PER_PLAYER = 2;
+export const PROJECT_CARDS_DEALT_PER_PLAYER = 10;
 
 // Global parameters
 export const HEAT_FOR_TEMPERATURE = 8;
@@ -31,7 +32,7 @@ export const TEMPERATURE_BONUS_FOR_HEAT_2 = -20;
 
 // Colonies
 export const MAX_COLONY_TRACK_POSITION = 6;
-export const MAX_COLONIES_PER_TILE = 3;
+export const MAX_COLONIES_PER_TILE = 4;
 export const MAX_FLEET_SIZE = 4;
 export const MC_TRADE_COST = 9;
 export const ENERGY_TRADE_COST = 3;

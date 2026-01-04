@@ -169,6 +169,12 @@
                                 <div class="create-game-expansion-icon expansion-icon-underworld"></div>
                                 <span v-i18n>Underworld 2</span><span></span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Underworld" class="tooltip" v-i18n data-tooltip="Link opens in a new tab/window" target="_blank">&#9432;</a>
                             </label>
+
+                            <input type="checkbox" name="shil" id="shil-checkbox" v-model="expansions.shil">
+                            <label for="shil-checkbox" class="expansion-button">
+                                <div class="create-game-expansion-icon expansion-icon-shil"></div>
+                                <span v-i18n>Shil</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Shil" class="tooltip" v-i18n data-tooltip="Link opens in a new tab/window" target="_blank">&#9432;</a>
+                            </label>
                         </div>
 
                         <div class="create-game-page-column">
@@ -191,15 +197,31 @@
                             <h4 v-i18n>Options</h4>
 
                             <label for="startingCorpNum-checkbox">
-                            <input type="number" class="create-game-corporations-count" value="2" min="1" :max="6" v-model="startingCorporations" id="startingCorpNum-checkbox">
+                            <input type="number" class="create-game-corporations-count" value="2" min="1" :max="20" v-model="startingCorporations" id="startingCorpNum-checkbox">
                                 <span v-i18n>Starting Corporations</span>
                             </label>
+
+                            <template v-if="expansions.shil">
+                              <label for="startingProjectCardsNum-checkbox">
+                              <div class="create-game-expansion-icon expansion-icon-shil"></div>
+                              <input type="number" class="create-game-corporations-count" value="10" min="4" :max="40" v-model="startingProjectCards" id="startingProjectCardsNum-checkbox">
+                                  <span v-i18n>Starting Project Cards</span>
+                              </label>
+                            </template>
 
                             <template v-if="expansions.prelude">
                               <label for="startingPreludeENum-checkbox">
                               <div class="create-game-expansion-icon expansion-icon-prelude"></div>
-                              <input type="number" class="create-game-corporations-count" value="4" min="4" :max="8" v-model="startingPreludes" id="startingPreludeNum-checkbox">
+                              <input type="number" class="create-game-corporations-count" value="4" min="4" :max="12" v-model="startingPreludes" id="startingPreludeNum-checkbox">
                                   <span v-i18n>Starting Preludes</span>
+                              </label>
+                            </template>
+
+                            <template v-if="expansions.shil && expansions.prelude">
+                              <label for="preludesToPlayNum-checkbox">
+                              <div class="create-game-expansion-icon expansion-icon-shil"></div>
+                              <input type="number" class="create-game-corporations-count" value="2" min="2" :max="8" v-model="preludesToPlay" id="preludesToPlayNum-checkbox">
+                                  <span v-i18n>Preludes To Play</span>
                               </label>
                             </template>
 
@@ -948,11 +970,15 @@ export default (Vue as WithRefs<Refs>).extend({
       // Check custom colony count
       if (customColonies.length > 0) {
         const playersCount = players.length;
-        let neededColoniesCount = playersCount + 2;
-        if (playersCount === 1) {
+        let neededColoniesCount: number;
+        if (playersCount === 4) {
+          neededColoniesCount = 8; // Hardcoded 8 colonies for 4-player games
+        } else if (playersCount === 1) {
           neededColoniesCount = 4;
         } else if (playersCount === 2) {
           neededColoniesCount = 5;
+        } else {
+          neededColoniesCount = playersCount + 2;
         }
 
         if (customColonies.length < neededColoniesCount) {
@@ -1154,6 +1180,8 @@ export default (Vue as WithRefs<Refs>).extend({
         customCeos,
         startingCeos,
         startingPreludes,
+        startingProjectCards: this.startingProjectCards,
+        preludesToPlay: this.preludesToPlay,
       };
       return JSON.stringify(dataToSend, undefined, 4);
     },
