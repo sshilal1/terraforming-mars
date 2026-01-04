@@ -1073,4 +1073,11 @@ export enum CardName {
   DRAW_TEST_CARD = 'Draw Test Card',
   POWER_OF_FRIENDSHIP = 'Power Of Friendship',
   FLORIDA_GRASS = 'Florida Grass',
+  // Apollo Moon Cards
+  ARMSTRONG_OBSERVATORY = 'Armstrong Observatory',
+  ALDRIN_CYCLER_STATION = 'Aldrin Cycler Station',
+  TRANQUILITY_BASE_MEMORIAL = 'Tranquility Base Memorial',
+  COLLINS_ORBITAL_COMMAND = 'Collins Orbital Command',
+  EAGLE_MODULE_ARCHIVES = 'Eagle Module Archives',
+  ONE_SMALL_STEP_FOUNDATION = 'One Small Step Foundation',
 }
